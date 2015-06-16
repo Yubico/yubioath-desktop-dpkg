@@ -50,13 +50,15 @@ yubioath/gui/view/systray.py
 yubioath/yubicommon/__init__.py
 yubioath/yubicommon/ctypes/__init__.py
 yubioath/yubicommon/ctypes/libloader.py
-yubioath/yubicommon/exe/__init__.py
-yubioath/yubicommon/exe/pyinstaller_spec.py
 yubioath/yubicommon/qt/__init__.py
 yubioath/yubicommon/qt/classes.py
 yubioath/yubicommon/qt/settings.py
 yubioath/yubicommon/qt/utils.py
 yubioath/yubicommon/qt/worker.py
+yubioath/yubicommon/setup/__init__.py
+yubioath/yubicommon/setup/exe.py
+yubioath/yubicommon/setup/pyinstaller_spec.py
+yubioath/yubicommon/setup/qt.py
 yubioath_desktop.egg-info/PKG-INFO
 yubioath_desktop.egg-info/SOURCES.txt
 yubioath_desktop.egg-info/dependency_links.txt
