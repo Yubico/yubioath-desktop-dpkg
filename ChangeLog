@@ -1,0 +1,815 @@
+2015-06-16  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, yubioath/__init__.py: Updated NEWS and version for release.
+
+2015-06-16  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/messages.py, yubioath/gui/view/systray.py: Add a
+	"show" command to systray context menu.
+
+2015-06-16  Dain Nilsson <dain@yubico.com>
+
+	* setup.py, vendor/yubicommon: Updated yubicommon.
+
+2015-06-15  Dain Nilsson <dain@yubico.com>
+
+	* NEWS: Added NEWS for release.
+
+2015-06-15  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/ccid.py, yubioath/gui/ccid.py,
+	yubioath/gui/ccid_poll.py, yubioath/gui/controller.py,
+	yubioath/gui/main.py, yubioath/gui/messages.py,
+	yubioath/gui/view/codes.py: Handle device in use better.
+
+2015-06-15  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/ccid.py, yubioath/core/controller.py,
+	yubioath/gui/ccid.py, yubioath/gui/ccid_poll.py,
+	yubioath/gui/controller.py: Release CCID device between reads and
+	don't read while hidden.
+
+2015-06-15  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/ccid.py, yubioath/core/ccid_poll.py,
+	yubioath/gui/ccid.py, yubioath/gui/ccid_poll.py,
+	yubioath/gui/controller.py: Move observing CCID code to gui.
+
+2015-06-15  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, README, yubioath/__init__.py: Fix deps.
+
+2015-06-15  Dain Nilsson <dain@yubico.com>
+
+	* README, resources/linux-patch-ccid: Added instructions for libccid
+	to README.
+
+2015-06-12  Dain Nilsson <dain@yubico.com>
+
+	* resources/yubioath.xpm: Added XPM icon.
+
+2015-06-12  Dain Nilsson <dain@yubico.com>
+
+	* resources/yubioath.desktop, setup.py: Added .desktop file.
+
+2015-06-12  Dain Nilsson <dain@yubico.com>
+
+	* README: Updated README.
+
+2015-06-12  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/view/add_cred.py: Better validation for b32 keys.
+
+2015-06-12  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/controller.py, yubioath/gui/main.py: Better handling
+	of password protected keys inserted while minimized.
+
+2015-06-12  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/messages.py, yubioath/gui/view/codes.py: Added
+	confirmation for deletes.
+
+2015-06-12  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon, yubioath/gui/main.py: Only allow a single
+	running instance.
+
+2015-06-12  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/ccid.py, yubioath/gui/controller.py,
+	yubioath/gui/view/codes.py: Only using polling API for Windows.
+
+2015-06-11  Dain Nilsson <dain@yubico.com>
+
+	* README, resources/osx-installer.pkgproj,
+	resources/osx-patch-ccid, vendor/yubicommon: Added osx installer.
+
+2015-06-10  Dain Nilsson <dain@yubico.com>
+
+	* resources/win-installer.nsi: Added NSIS installer script.
+
+2015-06-10  Dain Nilsson <dain@yubico.com>
+
+	* README: Updated README.
+
+2015-06-10  Dain Nilsson <dain@yubico.com>
+
+	* README, README.adoc: Added README.adoc symlink for Github.
+
+2015-06-10  Dain Nilsson <dain@yubico.com>
+
+	* : commit 39230a64d5d0aaa7d3b11e602c8140a37a3cba41 Author: Dain
+	Nilsson <dain@yubico.com> Date:   Wed Jun 10 16:36:38 2015 +0200
+
+2015-06-10  Dain Nilsson <dain@yubico.com>
+
+	* : Fixed Windows icon.
+
+2015-06-10  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/main.py, yubioath/gui/view/systray.py: Systray icon
+	fixes.
+
+2015-06-10  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon: Updated yubicommon.
+
+2015-06-10  Dain Nilsson <dain@yubico.com>
+
+	* : Added icons.
+
+2015-06-10  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon: Updated yubicommon.
+
+2015-06-10  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/legacy_otp.py: Fix wrong return type for
+	_yk_errno_location.
+
+2015-06-09  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon: Updated yubicommons.
+
+2015-06-09  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/ccid.py, yubioath/core/ccid_poll.py: Added polling
+	low-level backend for Windows.
+
+2015-06-08  Dain Nilsson <dain@yubico.com>
+
+	* setup.py, vendor/yubicommon, yubioath/core/ccid.py,
+	yubioath/gui/controller.py: Move pyscard logic from controller.
+
+2015-06-05  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon, yubioath/gui/view/codes.py: Copy and close on
+	double-click.
+
+2015-06-05  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/controller.py, yubioath/gui/main.py,
+	yubioath/gui/messages.py, yubioath/gui/view/settings.py: Only poll
+	YubiKey when in foreground.
+
+2015-06-05  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/unlocker.py: Remove unused file.
+
+2015-06-05  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/main.py, yubioath/gui/view/systray.py: Fix systray
+	window positioning.
+
+2015-06-05  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon: Newer yubicommon.
+
+2015-06-05  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/main.py, yubioath/gui/view/systray.py: Added quit to
+	file menu.
+
+2015-06-05  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/main.py, yubioath/gui/messages.py,
+	yubioath/gui/view/systray.py: Added context menu to systray.
+
+2015-06-04  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/main.py, yubioath/gui/view/systray.py: Added systray
+	icon.
+
+2015-06-04  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/model.py: Remove unused file.
+
+2015-06-04  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/controller.py, yubioath/gui/main.py,
+	yubioath/gui/view/codes.py: Implemented delete.
+
+2015-06-04  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/keystore.py: Fix error when unsetting a password.
+
+2015-06-04  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/main.py, yubioath/gui/messages.py: Only allow
+	add/change pasword when key is present.
+
+2015-06-04  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon: Fix lock release on exception.
+
+2015-06-04  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/messages.py, yubioath/gui/view/get_password.py,
+	yubioath/gui/view/set_password.py: Correct window titles.
+
+2015-06-04  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/standard.py, yubioath/core/utils.py,
+	yubioath/gui/controller.py, yubioath/gui/main.py,
+	yubioath/gui/messages.py, yubioath/gui/view/add_cred.py,
+	yubioath/gui/view/get_password.py,
+	yubioath/gui/view/set_password.py: Implemented password changing.
+
+2015-06-04  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/standard.py, yubioath/gui/controller.py,
+	yubioath/gui/main.py, yubioath/gui/messages.py,
+	yubioath/gui/view/add_cred.py, yubioath/gui/view/settings.py: 
+	Implemented add_cred dialog.
+
+2015-06-03  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon, yubioath/gui/controller.py: Fix deadlock when
+	waiting for password entry.
+
+2015-06-03  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/keystore.py, yubioath/gui/keystore.py: Fix keystore
+	deleting passwords.
+
+2015-06-03  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/main.py: Center label.
+
+2015-06-03  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/view/codes.py: Add line between codes.
+
+2015-06-03  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/controller.py, yubioath/gui/messages.py: Better touch
+	dialog.
+
+2015-06-03  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/messages.py, yubioath/gui/view/codes.py: Add
+	right-click menu to codes.
+
+2015-06-03  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/standard.py: Sort results.
+
+2015-06-03  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon, yubioath/gui/controller.py,
+	yubioath/gui/main.py, yubioath/gui/view/settings.py: Refresh on
+	settings change.
+
+2015-06-03  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/controller.py, yubioath/gui/main.py,
+	yubioath/gui/view/settings.py: Use settings.
+
+2015-06-03  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/main.py, yubioath/gui/view/codes.py: Better
+	scrolling.
+
+2015-06-03  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/view/codes.py: Copy to clipboard.
+
+2015-06-03  Dain Nilsson <dain@yubico.com>
+
+	* README: Updated README.
+
+2015-06-03  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/view/codes.py: Added calculate and copy icons.
+
+2015-05-27  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/main.py, yubioath/gui/messages.py,
+	yubioath/gui/view/codes.py, yubioath/gui/view/settings.py: Added
+	SettingsDialog.
+
+2015-05-26  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/main.py: Show correct widget on startup.
+
+2015-05-26  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon, yubioath/gui/main.py: Store settings.
+
+2015-05-26  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/controller.py, yubioath/gui/keystore.py: Save
+	passwords to disk.
+
+2015-05-26  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/controller.py: Fix startup with device requiring key.
+
+2015-05-26  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon, yubioath/core/legacy_otp.py,
+	yubioath/gui/main.py: Show ykpers lib version.
+
+2015-05-26  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/controller.py, yubioath/gui/main.py,
+	yubioath/gui/view/codes.py, yubioath/gui/view/get_password.py: Added
+	locking and better device detection.
+
+2015-05-26  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/standard.py: Support secrets longer than 64 bytes.
+
+2015-05-26  Dain Nilsson <dain@yubico.com>
+
+	* .gitmodules, vendor/yubicommon: Use yubicommon from Github.
+
+2015-05-21  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/standard.py: Allow delete without Credential
+	reference.
+
+2015-05-20  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/controller.py, yubioath/core/standard.py,
+	yubioath/gui/controller.py, yubioath/gui/main.py,
+	yubioath/gui/view/codes.py: Added support for touch and hotp codes.
+
+2015-05-19  Dain Nilsson <dain@yubico.com>
+
+	* scripts/yubioath-cli, yubioath/cli/controller.py,
+	yubioath/cli/keystore.py, yubioath/cli/unlocker.py,
+	yubioath/core/ccid.py, yubioath/core/controller.py,
+	yubioath/gui/controller.py, yubioath/gui/main.py,
+	yubioath/gui/model.py, yubioath/gui/unlocker.py,
+	yubioath/gui/view/codes.py: Extract credential reading logic.
+
+2015-05-19  Dain Nilsson <dain@yubico.com>
+
+	* setup.py, vendor/yubicommon, yubioath/core/legacy_otp.py,
+	yubioath/core/libloader.py: Use libloader from yubicommon.
+
+2015-05-19  Dain Nilsson <dain@yubico.com>
+
+	* MANIFEST.in, scripts/yubioath-cli, setup.py, vendor/yubicommon,
+	yubioath/core/ccid.py, yubioath/core/legacy_ccid.py,
+	yubioath/core/legacy_otp.py, yubioath/core/standard.py,
+	yubioath/gui/__init__.py, yubioath/gui/main.py,
+	yubioath/gui/view/main.py: Use relative imports. Cleanups.
+
+2015-05-19  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/view/utils.py, yubioath/gui/worker.py: Removed unused
+	files.
+
+2015-05-14  Dain Nilsson <dain@yubico.com>
+
+	* .gitmodules, qt_resources.py, release.py, setup.py,
+	vendor/yubicommon, yubioath/yubicommon: Vendor yubicommon.
+
+2015-05-05  Tom <tom@yubico.com>
+
+	* : Merge pull request #23 from DarkDimius/patch-1 Update `Usage` section to include helpful option for scdaemon
+
+2015-04-30  Dain Nilsson <dain@yubico.com>
+
+	* scripts/yubioath-cli, yubioath/cli/keystore.py,
+	yubioath/core/ccid.py, yubioath/core/exc.py,
+	yubioath/core/legacy_ccid.py, yubioath/core/legacy_otp.py,
+	yubioath/core/main.py: Added CLI script.
+
+2015-04-29  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/main.py, yubioath/core/standard.py: Finished core
+	API.
+
+2015-04-29  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/ccid.py, yubioath/core/device.py,
+	yubioath/core/exc.py, yubioath/core/legacy.py,
+	yubioath/core/legacy_ccid.py, yubioath/core/legacy_otp.py,
+	yubioath/core/standard.py, yubioath/core/utils.py: Added support for
+	legacy OATH over CCID.
+
+2015-04-28  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/device.py: Fixed parse_truncated.
+
+2015-04-28  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/legacy.py, yubioath/core/libloader.py: Started work
+	on legacy TOTP support.
+
+2015-04-28  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/device.py: Completed device API.
+
+2015-04-28  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/device.py: Added calculate functionality.
+
+2015-04-27  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/device.py, yubioath/core/utils.py,
+	yubioath/gui/main.py, yubioath/gui/messages.py,
+	yubioath/gui/view/__init__.py, yubioath/gui/view/main.py,
+	yubioath/gui/view/utils.py, yubioath/gui/worker.py: Started working
+	on core library.
+
+2015-04-24  Dain Nilsson <dain@yubico.com>
+
+	* .gitignore, MANIFEST.in, qt_resources.py, scripts/yubioath,
+	yubioath/__init__.py, yubioath/cli/__init__.py,
+	yubioath/core/__init__.py, yubioath/gui/__init__.py,
+	yubioath/gui/main.py: Added boilerplate.
+
+2015-04-24  Dain Nilsson <dain@yubico.com>
+
+	* release.py, scripts/yubicoauthenticatorman.1, setup.py,
+	yubicoauthenticator/__init__.py, yubicoauthenticator/commands.py,
+	yubicoauthenticator/functions.py, yubicoauthenticator/libykneo.py,
+	yubicoauthenticator/resources/osx/libccid-yubikey-no-u2f.diff,
+	yubicoauthenticator/resources/osx/libccid-yubikey.diff,
+	yubicoauthenticator/resources/osx/patch,
+	yubicoauthenticator/resources/qt.conf,
+	yubicoauthenticator/resources/yubicoauthenticator.desktop,
+	yubicoauthenticator/resources/yubicoauthenticator.nsi,
+	yubicoauthenticator/resources/yubicoauthenticator.xpm,
+	yubicoauthenticator/text.py, yubicoauthenticator/ui_addaccount.py,
+	yubicoauthenticator/ui_main.py,
+	yubicoauthenticator/ui_password_change.py,
+	yubicoauthenticator/yubico_authenticator.py,
+	yubicoauthenticator/yubicoauthenticator.spec: Remove old module.
+
+2015-03-30  Tom <tom@yubico.com>
+
+	* : Merge pull request #20 from lukegb/patch-1 Correctly support 8 digit TOTP
+
+2015-02-05  tom <tom@yubico.com>
+
+	* yubicoauthenticator/yubico_authenticator.py: minor fix
+
+2015-02-05  Tom <tom@yubico.com>
+
+	* : Merge pull request #18 from dwmw2/master Fix non-ASCII password compatibility with pre-KitKit Android
+
+2015-02-05  tom <tom@yubico.com>
+
+	* yubicoauthenticator/text.py: minor fix
+
+2015-02-05  tom <tom@yubico.com>
+
+	* yubicoauthenticator/yubico_authenticator.py: fixed app name
+
+2015-02-05  tom <tom@yubico.com>
+
+	* yubicoauthenticator/ui_main.py: fix systray bug
+
+2014-11-24  tom <tom@yubico.com>
+
+	* yubicoauthenticator/ui_addaccount.py,
+	yubicoauthenticator/ui_main.py: fix utf-8 account names
+
+2014-11-24  tom <tom@yubico.com>
+
+	* yubicoauthenticator/__init__.py, yubicoauthenticator/text.py: 
+	version bump
+
+2014-11-24  tom <tom@yubico.com>
+
+	* yubicoauthenticator/commands.py,
+	yubicoauthenticator/functions.py,
+	yubicoauthenticator/yubico_authenticator.py: fixed utf-8 password
+
+2014-09-09  tom <tom@yubico.com>
+
+	* README: minor
+
+2014-09-03  tom <tom@yubico.com>
+
+	* yubicoauthenticator/resources/osx/libccid-yubikey-no-u2f.diff: 
+	updated diffs files
+
+2014-09-03  tom <tom@yubico.com>
+
+	* yubicoauthenticator/resources/osx/libccid-yubikey.diff: updated
+	diff with u2f
+
+2014-05-08  tom <tom@yubico.com>
+
+	* yubicoauthenticator/ui_main.py,
+	yubicoauthenticator/yubico_authenticator.py: renamed project files
+	to yubico_authenticator.py
+
+2014-05-08  tom <tom@yubico.com>
+
+	* README, yubicoauthenticator/commands.py,
+	yubicoauthenticator/ui_systray.py,
+	yubicoauthenticator/yubico_authenticator.py,
+	yubicoauthenticator/yubicoauthenticator.spec: renaming project files
+
+2014-05-08  tom <tom@yubico.com>
+
+	* README: fixed README
+
+2014-05-08  tom <tom@yubico.com>
+
+	* yubicoauthenticator/text.py, yubicoauthenticator/ui_systray.py: 
+	minor fix
+
+2014-05-08  tom <tom@yubico.com>
+
+	* scripts/yubicoauthenticatorman.1: added man
+
+2014-05-08  tom <tom@yubico.com>
+
+	* README, yubicoauthenticator/ui_systray.py: Resolves #4 and
+	Resolves #9 - Closes #7
+
+2014-05-08  tom <tom@yubico.com>
+
+	* yubicoauthenticator/ui_main.py, yubicoauthenticator/ui_systray.py: 
+	added --disbale-systray mode
+
+2014-05-08  tom <tom@yubico.com>
+
+	* : commit 0a0046300f8859705edf56e41345a72e0c34c18f Author: tom
+	<tom@yubico.com> Date:   Thu May 8 10:45:11 2014 +0200
+
+2014-05-04  Simon Josefsson <simon@josefsson.org>
+
+	* BLURB, setup.py: Clarify license. Closes #11.
+
+2014-05-03  Simon Josefsson <simon@josefsson.org>
+
+	* : Merge pull request #10 from kmpm/ubuntu Better instructions for ubuntu
+
+2014-04-25  Tom <tom@yubico.com>
+
+	* NEWS: NEWS
+
+2014-04-25  tom <tom@yubico.com>
+
+	* yubicoauthenticator/__init__.py, yubicoauthenticator/libykneo.py,
+	yubicoauthenticator/text.py,
+	yubicoauthenticator/yubico_authenticator.py: release 0.1.1 * fix password protection bug
+
+2014-04-09  tom <tom@yubico.com>
+
+	* yubicoauthenticator/yubicoauthenticator.spec: fix spec
+
+2014-04-08  tom <tom@yubico.com>
+
+	* : minor fix
+
+2014-04-02  tom <tom@yubico.com>
+
+	* : commit 52ccda212f39b96f5b45954f5505eca6804a3ea1 Author: Tom
+	<tom@yubico.com> Date:   Wed Apr 2 13:32:30 2014 +0200
+
+2014-04-02  tom <tom@yubico.com>
+
+	* yubicoauthenticator/resources/yubicoauthenticator.desktop,
+	yubicoauthenticator/resources/yubicoauthenticator.xpm: adding ubuntu
+	resources
+
+2014-04-02  tom <tom@yubico.com>
+
+	* MANIFEST.in, setup.py: minor fix
+
+2014-04-01  tom <tom@yubico.com>
+
+	* yubicoauthenticator/resources/yubicoauthenticator.nsi: updated
+	.nsi
+
+2014-04-01  tom <tom@yubico.com>
+
+	* yubicoauthenticator/text.py, yubicoauthenticator/ui_main.py: 
+	updated text
+
+2014-04-01  tom <tom@yubico.com>
+
+	* : commit 2416286e427bc56932c3dbd5410e0e4485f8163a Author: tom
+	<tom@yubico.com> Date:   Tue Apr 1 13:07:59 2014 +0200
+
+2014-03-18  Tom <tom@yubico.com>
+
+	* NEWS, yubicoauthenticator/__init__.py: 0.1.0
+
+2014-03-17  Tom <tom@yubico.com>
+
+	* NEWS, yubicoauthenticator/__init__.py: news
+
+2014-03-17  tom <tom@yubico.com>
+
+	* yubicoauthenticator/yubicoauthenticator.spec: minor fix
+
+2014-03-17  tom <tom@yubico.com>
+
+	* yubicoauthenticator/text.py,
+	yubicoauthenticator/yubicoauthenticator.spec: minor fix
+
+2014-03-17  tom <tom@yubico.com>
+
+	* yubicoauthenticator/libykneo.py,
+	yubicoauthenticator/yubico_authenticator.py: added multireader
+	support
+
+2014-03-13  tom <tom@yubico.com>
+
+	* yubicoauthenticator/resources/osx/patch: updated patch
+
+2014-03-13  tom <tom@yubico.com>
+
+	* : commit 8cfdb4cd010f0a3b1f6839563c1d257fdb2099f8 Author: tom
+	<tom@yubico.com> Date:   Thu Mar 13 11:15:52 2014 +0100
+
+2014-03-11  Tom <tom@yubico.com>
+
+	* NEWS: version 0.0.5
+
+2014-03-11  tom <tom@yubico.com>
+
+	* yubicoauthenticator/yubicoauthenticator.spec: fix
+
+2014-03-11  tom <tom@yubico.com>
+
+	* yubicoauthenticator/yubicoauthenticator.spec: fix
+
+2014-03-11  tom <tom@yubico.com>
+
+	* yubicoauthenticator/yubicoauthenticator.spec: added custom patch
+	to avoid using the CCID TOOLS
+
+2014-03-11  tom <tom@yubico.com>
+
+	* yubicoauthenticator/resources/osx/patch,
+	yubicoauthenticator/resources/osx/patch.sh,
+	yubicoauthenticator/yubicoauthenticator.spec: patch
+
+2014-03-11  tom <tom@yubico.com>
+
+	* yubicoauthenticator/__init__.py, yubicoauthenticator/libykneo.py: 
+	version 0.0.5
+
+2014-03-11  tom <tom@yubico.com>
+
+	* yubicoauthenticator/resources/osx/libccid-yubikey.diff,
+	yubicoauthenticator/resources/osx/patch.sh: updated patch for MacOSX
+
+2014-03-07  tom <tom@yubico.com>
+
+	* yubicoauthenticator/ui_systray.py: minor fix
+
+2014-03-07  tom <tom@yubico.com>
+
+	* yubicoauthenticator/ui_systray.py: minor fix
+
+2014-03-07  tom <tom@yubico.com>
+
+	* yubicoauthenticator/resources/osx/patch.sh: fixed patch.sh
+
+2014-03-07  tom <tom@yubico.com>
+
+	* yubicoauthenticator/ui_systray.py,
+	yubicoauthenticator/yubicoauthenticator.spec: fix spec added patch
+
+2014-03-07  tom <tom@yubico.com>
+
+	* yubicoauthenticator/resources/osx/libccid-yubikey.diff,
+	yubicoauthenticator/resources/osx/patch.sh,
+	yubicoauthenticator/ui_systray.py: mac osx libccid patch
+
+2014-03-07  tom <tom@yubico.com>
+
+	* yubicoauthenticator/ui_systray.py: layout fixes for mac
+
+2014-03-06  tom <tom@yubico.com>
+
+	* README, yubicoauthenticator/yubicoauthenticator.spec: mac osx
+	fixes
+
+2014-03-06  tom <tom@yubico.com>
+
+	* yubicoauthenticator/yubicoauthenticator.spec: updated spec file
+
+2014-03-06  tom <tom@yubico.com>
+
+	* yubicoauthenticator/ui_systray.py: font fix
+
+2014-03-06  tom <tom@yubico.com>
+
+	* yubicoauthenticator/ui_systray.py: fixes
+
+2014-03-06  tom <tom@yubico.com>
+
+	* yubicoauthenticator/ui_main.py,
+	yubicoauthenticator/ui_password_change.py,
+	yubicoauthenticator/ui_systray.py: added focus on main Window added
+	asterisks for password fields
+
+2014-03-05  Tom <tom@yubico.com>
+
+	* NEWS: release 0.0.4 bugfix image
+
+2014-03-05  Tom <tom@yubico.com>
+
+	* NEWS, release.py: release & news
+
+2014-03-05  tom <tom@yubico.com>
+
+	* yubicoauthenticator/yubicoauthenticator.spec: minor
+
+2014-03-05  tom <tom@yubico.com>
+
+	* : minor
+
+2014-03-05  tom <tom@yubico.com>
+
+	* yubicoauthenticator/yubicoauthenticator.spec: minor fix
+
+2014-03-05  tom <tom@yubico.com>
+
+	* README: updated README
+
+2014-03-05  tom <tom@yubico.com>
+
+	* yubicoauthenticator/yubicoauthenticator.spec: updated spec file
+
+2014-03-05  tom <tom@yubico.com>
+
+	* README: updated README
+
+2014-03-05  tom <tom@yubico.com>
+
+	* README, yubicoauthenticator/__init__.py,
+	yubicoauthenticator/ui_systray.py: version 0.0.3 added mac pkg
+
+2014-03-05  tom <tom@yubico.com>
+
+	* : commit 8bd270a8c4efb58eb3f730ac0e57494ada3e7dc1 Author: tom
+	<tom@yubico.com> Date:   Fri Feb 28 16:47:47 2014 +0100
+
+2014-02-26  Tom <tom@yubico.com>
+
+	* README: updated readme
+
+2014-02-26  tom <tom@yubico.com>
+
+	* yubicoauthenticator/functions.py, yubicoauthenticator/ui_main.py: 
+	fixed menubar
+
+2014-02-26  Tom <tom@yubico.com>
+
+	* NEWS: updated NEWS
+
+2014-02-26  Tom <tom@yubico.com>
+
+	* README: updated readme
+
+2014-02-26  tom <tom@yubico.com>
+
+	* yubicoauthenticator/__init__.py: version 0.0.2
+
+2014-02-26  tom <tom@yubico.com>
+
+	* yubicoauthenticator/ui_password_change.py: added
+	ui_password_change.py
+
+2014-02-26  tom <tom@yubico.com>
+
+	* yubicoauthenticator/functions.py, yubicoauthenticator/ui_main.py,
+	yubicoauthenticator/ui_systray.py,
+	yubicoauthenticator/yubico_authenticator.py: added menu, password
+	change, about
+
+2014-02-21  tom <tom@yubico.com>
+
+	* README: updated README
+
+2014-02-21  tom <tom@yubico.com>
+
+	* : commit 79cfaccfa8380d014244b91271e7a0e4d6f0b1b6 Author: tom
+	<tom@yubico.com> Date:   Fri Feb 21 10:15:36 2014 +0100
+
+2014-02-19  Tom <tom@yubico.com>
+
+	* BLURB: fixed BLURB
+
+2014-02-19  Tom <tom@yubico.com>
+
+	* BLURB, NEWS, release.py, setup.py: fixed BLURB
+
+2014-02-19  tom <tom@yubico.com>
+
+	* README: readme update
+
+2014-02-18  tom <tom@yubico.com>
+
+	* README: fix readme url
+
+2014-02-18  tom <tom@yubico.com>
+
+	* initial release
+

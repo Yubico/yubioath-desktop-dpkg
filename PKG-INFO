@@ -1,0 +1,18 @@
+Metadata-Version: 1.1
+Name: yubioath-desktop
+Version: 2.0.1
+Summary: Graphical interface for displaying OATH codes with a Yubikey
+Home-page: https://github.com/Yubico/yubioath-desktop
+Author: Yubico Open Source Maintainers
+Author-email: ossmaint@yubico.com
+License: GPLv3+
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: X11 Applications :: Qt
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Topic :: Security :: Cryptography
+Classifier: Topic :: Utilities
