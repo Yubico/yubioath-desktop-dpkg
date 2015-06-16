@@ -1,0 +1,33 @@
+Source: yubioath-desktop
+Maintainer: Dain Nilsson <dain@yubico.com>
+Uploaders: Dain Nilsson <dain@yubico.com>,
+           Simon Josefsson <simon@josefsson.org>,
+           Klas Lindfors <klas@yubico.com>
+Section: python
+Priority: optional
+Build-Depends: debhelper (>= 9),
+               dh-exec,
+               python (>= 2.7),
+               python-setuptools (>= 0.6b3),
+               python-pyside.qtgui
+Standards-Version: 3.9.6
+X-Python-Version: >= 2.7
+Homepage: https://developers.yubico.com/yubioath-desktop/
+Vcs-Browser: https://github.com/Yubico/yubioath-desktop-dpkg
+Vcs-Git: git://github.com/Yubico/yubioath-desktop-dpkg.git
+
+Package: yubioath-desktop
+Architecture: all
+Depends: libykpers-1-1 (>= 1.11),
+         ${misc:Depends},
+         python-pyside.qtgui,
+         python-pyside.qtnetwork,
+         python-setuptools (>= 0.6b3),
+         ${python:Depends}
+Recommends: pcscd
+Description: Graphical interface for displaying OATH codes with a Yubikey
+ The Yubico Authenticator is a graphical desktop tool for generating Open
+ AuTHentication (OATH) event-based HOTP and time-based TOTP one-time password
+ codes, with the help of a Yubikey that protects the shared secrets.
+
+

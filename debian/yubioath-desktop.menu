@@ -1,0 +1,6 @@
+?package(yubioath-desktop):needs="X11" \
+  section="Applications/System/Administration"\
+  title="Yubico Authenticator" \
+  command="/usr/bin/yubioath" \
+  longtitle="Graphical interface for displaying OATH codes with a Yubikey" \
+  icon="/usr/share/pixmaps/yubioath.xpm"

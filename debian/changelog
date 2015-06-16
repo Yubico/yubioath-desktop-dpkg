@@ -1,0 +1,5 @@
+yubioath-desktop (2.0.1-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Dain Nilsson <dain@yubico.com>  Tue, 16 Jun 2015 13:49:24 +0200

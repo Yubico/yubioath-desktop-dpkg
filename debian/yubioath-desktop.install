@@ -1,0 +1,4 @@
+#!/usr/bin/dh-exec
+resources/yubioath.desktop usr/share/applications/
+resources/yubioath.xpm usr/share/pixmaps/
+resources/yubioath-desktop.png => usr/share/icons/hicolor/128x128/apps/yubioath.png
