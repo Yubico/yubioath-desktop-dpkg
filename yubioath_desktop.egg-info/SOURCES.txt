@@ -3,6 +3,7 @@ ChangeLog
 MANIFEST.in
 NEWS
 README
+screenshot.png
 setup.py
 qt_resources/calc.png
 qt_resources/copy.png
@@ -23,6 +24,7 @@ yubioath/__init__.py
 yubioath/cli/__init__.py
 yubioath/cli/controller.py
 yubioath/cli/keystore.py
+yubioath/cli/main.py
 yubioath/cli/unlocker.py
 yubioath/core/__init__.py
 yubioath/core/ccid.py
@@ -42,6 +44,7 @@ yubioath/gui/messages.py
 yubioath/gui/qt_resources.py
 yubioath/gui/view/__init__.py
 yubioath/gui/view/add_cred.py
+yubioath/gui/view/add_cred_legacy.py
 yubioath/gui/view/codes.py
 yubioath/gui/view/get_password.py
 yubioath/gui/view/set_password.py

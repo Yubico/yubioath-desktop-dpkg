@@ -47,10 +47,13 @@ class CredentialType:
     AUTO, HOTP, TOUCH, INVALID = range(4)
 
 
+Capabilities = namedtuple('Capabilities', 'ccid, otp')
+
 Code = namedtuple('Code', 'code timestamp')
 UNINITIALIZED = Code('', 0)
 
 TIME_PERIOD = 30
+INF = float('inf')
 
 
 class Credential(QtCore.QObject):
@@ -107,11 +110,15 @@ class TouchCredential(BoundCredential):
         dialog.setText(m.touch_desc)
 
         def cb(code):
-            self.code = code
             dialog.accept()
+            if isinstance(code, Exception):
+                QtGui.QMessageBox.warning(get_active_window(), m.error,
+                                          code.message)
+            else:
+                self.code = code
         self._controller._app.worker.post_bg(
             (self._controller._calculate_touch, self._slot, self._digits),
-            cb)
+            cb, True)
         dialog.exec_()
 
 
@@ -175,8 +182,12 @@ class GuiController(QtCore.QObject, Controller):
 
         self.watcher = observe_reader(self.reader_name, self._on_reader)
 
-        self.startTimer(2000)
+        self.startTimer(3000)
         self.timer.time_changed.connect(self.refresh_codes)
+
+    def settings_changed(self):
+        self.watcher.reader_name = self.reader_name
+        self.refresh_codes()
 
     @property
     def reader_name(self):
@@ -213,7 +224,22 @@ class GuiController(QtCore.QObject, Controller):
     def credentials(self):
         return self._creds
 
-    def _on_reader(self, watcher, reader):
+    def has_expiring(self, timestamp):
+        for c in self._creds or []:
+            if c.code.timestamp >= timestamp and c.code.timestamp < INF:
+                return True
+        return False
+
+    def get_capabilities(self):
+        _lock = self.grab_lock()
+        if self.watcher.open():
+            return Capabilities(True, None)
+        legacy = self.open_otp()
+        if legacy:
+            return Capabilities(None, legacy.slot_status())
+        return Capabilities(None, None)
+
+    def _on_reader(self, watcher, reader, lock=None):
         if reader:
             if self._reader is None:
                 self._reader = reader
@@ -232,7 +258,6 @@ class GuiController(QtCore.QObject, Controller):
         else:
             self._reader = None
             self._creds = None
-            self._expires = 0
             self.refreshed.emit()
 
     def _init_dev(self, dev):
@@ -270,11 +295,14 @@ class GuiController(QtCore.QObject, Controller):
         if creds:
             creds = map(self.wrap_credential, creds)
             if self._creds and names(creds) == names(self._creds):
-                creds = dict((c.name, c) for c in creds)
+                creds_map = dict((c.name, c) for c in creds)
                 for cred in self._creds:
                     if cred.cred_type == CredentialType.AUTO:
-                        cred.code = creds[cred.name].code
-                return
+                        cred.code = creds_map[cred.name].code
+                    elif cred.cred_type != creds_map[cred.name].cred_type:
+                        break
+                else:
+                    return
             elif self._reader and self._needs_read and self._creds:
                 return
         self._creds = creds
@@ -307,8 +335,8 @@ class GuiController(QtCore.QObject, Controller):
             return Code(dev.calculate(cred.name, cred.oath_type), float('inf'))
 
     def refresh_codes(self, timestamp=None, lock=None):
-        if not self._reader:
-            return self._on_reader(self.watcher, self.watcher.reader)
+        if not self._reader and self.watcher.reader:
+            return self._on_reader(self.watcher, self.watcher.reader, lock)
         elif not self._app.window.isVisible():
             self._needs_read = True
             return
@@ -326,40 +354,50 @@ class GuiController(QtCore.QObject, Controller):
 
     def timerEvent(self, event):
         if self._app.window.isVisible():
+            timestamp = self.timer.time
             if self._reader and self._needs_read:
                 self._app.worker.post_bg(self.refresh_codes)
-            elif self._reader is None and self._creds is None \
-                    and self.otp_enabled:
-                _lock = self.grab_lock()
-                timestamp = self.timer.time
-                read = self.read_creds(None, self.slot1, self.slot2, timestamp)
-                if read is not None and self._reader is None:
-                    self._set_creds(read)
+            elif self._reader is None and self.otp_enabled:
+                def refresh_otp():
+                    _lock = self.grab_lock(try_lock=True)
+                    if _lock:
+                        read = self.read_creds(None, self.slot1, self.slot2,
+                                               timestamp)
+                        self._set_creds(read)
+                self._app.worker.post_bg(refresh_otp)
         event.accept()
 
     def add_cred(self, *args, **kwargs):
         lock = self.grab_lock()
-        dev = YubiOathCcid(self.watcher.open())
-        if self.unlock(dev):
-            dev.put(*args, **kwargs)
-            self._creds = None
-            self.refresh_codes(lock=lock)
+        ccid_dev = self.watcher.open()
+        if ccid_dev:
+            dev = YubiOathCcid(ccid_dev)
+            if self.unlock(dev):
+                super(GuiController, self).add_cred(dev, *args, **kwargs)
+                self._creds = None
+                self.refresh_codes(lock=lock)
 
-    def delete_cred(self, name):
-        if name in ['YubiKey slot 1', 'YubiKey slot 2']:
-            raise NotImplementedError('Deleting YubiKey slots not implemented')
+    def add_cred_legacy(self, *args, **kwargs):
         lock = self.grab_lock()
-        dev = YubiOathCcid(self.watcher.open())
-        if dev.locked:
-            self.unlock(dev)
-        dev.delete(name)
+        super(GuiController, self).add_cred_legacy(*args, **kwargs)
         self._creds = None
         self.refresh_codes(lock=lock)
 
+    def delete_cred(self, name):
+        lock = self.grab_lock()
+        ccid_dev = self.watcher.open()
+        if ccid_dev:
+            dev = YubiOathCcid(ccid_dev)
+            if self.unlock(dev):
+                super(GuiController, self).delete_cred(dev, name)
+                self._creds = None
+                self.refresh_codes(lock=lock)
+
     def set_password(self, password, remember=False):
         _lock = self.grab_lock()
-        dev = YubiOathCcid(self.watcher.open())
-        if self.unlock(dev):
-            key = dev.calculate_key(password)
-            dev.set_key(key)
-            self._keystore.put(dev.id, key, remember)
+        ccid_dev = self.watcher.open()
+        if ccid_dev:
+            dev = YubiOathCcid(ccid_dev)
+            if self.unlock(dev):
+                key = super(GuiController, self).set_password(dev, password)
+                self._keystore.put(dev.id, key, remember)
