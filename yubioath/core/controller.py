@@ -114,10 +114,10 @@ class Controller(object):
                                 needs_touch[slot] = True
                 except CardError:
                     pass  # No applet?
-            ccid_dev.close()
 
         if self.otp_supported and ((slot1 and not legacy_creds[0])
                                    or (slot2 and not legacy_creds[1])):
+            ccid_dev.close()
             legacy = self.open_otp()
             if legacy:
                 key_found = True
@@ -139,3 +139,32 @@ class Controller(object):
             results.insert(0, legacy_creds[0])
 
         return results
+
+    def set_password(self, dev, password):
+        if dev.locked:
+            self.unlock(dev)
+        key = dev.calculate_key(password)
+        dev.set_key(key)
+        return key
+
+    def add_cred(self, dev, *args, **kwargs):
+        if dev.locked:
+            self.unlock(dev)
+        dev.put(*args, **kwargs)
+
+    def add_cred_legacy(self, *args, **kwargs):
+        legacy = self.open_otp()
+        if not legacy:
+            raise Exception('No YubiKey found!')
+        legacy.put(*args, **kwargs)
+
+    def delete_cred(self, dev, name):
+        if name in ['YubiKey slot 1', 'YubiKey slot 2']:
+            raise NotImplementedError('Deleting YubiKey slots not implemented')
+
+        if dev.locked:
+            self.unlock(dev)
+        dev.delete(name)
+
+    def reset_device(self, dev):
+        dev.reset()

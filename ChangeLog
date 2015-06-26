@@ -1,3 +1,128 @@
+2015-06-26  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, yubioath/__init__.py: Prepare for release.
+
+2015-06-26  Dain Nilsson <dain@yubico.com>
+
+	* NEWS: Updated NEWS.
+
+2015-06-24  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/main.py: Added support for specifying digits and imf
+	in CLI.
+
+2015-06-24  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/controller.py: Only close device if needed in
+	read_creds.
+
+2015-06-24  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/controller.py, yubioath/cli/main.py,
+	yubioath/core/controller.py: Added reset to CLI.
+
+2015-06-24  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/main.py: Cleaned upp password command.
+
+2015-06-24  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/main.py: save -> remember.
+
+2015-06-24  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/keystore.py, yubioath/cli/main.py: Added option to
+	purge saved passwords.
+
+2015-06-24  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/main.py: Use parent parsers for global options.
+
+2015-06-24  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, yubioath/cli/controller.py, yubioath/cli/main.py: Added
+	set/unset password to CLI.
+
+2015-06-24  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/main.py: Added delete to CLI.
+
+2015-06-24  Dain Nilsson <dain@yubico.com>
+
+	* scripts/yubioath-cli, yubioath/cli/controller.py,
+	yubioath/cli/main.py, yubioath/core/controller.py,
+	yubioath/core/utils.py, yubioath/gui/controller.py: Added put to
+	CLI.
+
+2015-06-22  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, vendor/yubicommon, yubioath/gui/controller.py,
+	yubioath/gui/main.py, yubioath/gui/view/codes.py: Improved composite
+	mode handling.
+
+2015-06-22  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/legacy_otp.py, yubioath/gui/controller.py,
+	yubioath/gui/main.py, yubioath/gui/messages.py,
+	yubioath/gui/view/add_cred.py, yubioath/gui/view/add_cred_legacy.py: 
+	Add programming of slots.
+
+2015-06-18  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/legacy_otp.py: Read slot status.
+
+2015-06-18  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/legacy_otp.py, yubioath/gui/main.py,
+	yubioath/gui/view/add_cred.py: Added API support for programming
+	slot based credentials.
+
+2015-06-18  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/controller.py, yubioath/gui/messages.py: Better
+	handling of legacy otp devices.
+
+2015-06-18  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/controller.py: Avoid clearing credentials on refresh
+	for legacy OTP mode.
+
+2015-06-18  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, yubioath/__init__.py: Bumped version.
+
+2015-06-18  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/utils.py, yubioath/gui/main.py,
+	yubioath/gui/messages.py, yubioath/gui/view/settings.py: Added
+	setting to kill scdaemon on show.
+
+2015-06-17  Dain Nilsson <dain@yubico.com>
+
+	* README: Remove TODO.
+
+2015-06-17  Dain Nilsson <dain@yubico.com>
+
+	* resources/win-installer.nsi, vendor/yubicommon,
+	yubioath/__init__.py: Updated yubicommon (closes #27).
+
+2015-06-17  Dain Nilsson <dain@yubico.com>
+
+	* README: Mention rebooting the computer. Remove PPA.
+
+2015-06-16  Henrik Stråth <henrik@yubico.com>
+
+	* README: Added screenshot to README
+
+2015-06-16  Dain Nilsson <dain@yubico.com>
+
+	* NEWS: Updated NEWS for new release.
+
+2015-06-16  Dain Nilsson <dain@yubico.com>
+
+	* setup.py, vendor/yubicommon, yubioath/__init__.py: Updated
+	yubicommon.
+
 2015-06-16  Dain Nilsson <dain@yubico.com>
 
 	* NEWS, yubioath/__init__.py: Updated NEWS and version for release.

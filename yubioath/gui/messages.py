@@ -40,6 +40,7 @@ copyright = "Copyright &copy; Yubico"
 libraries = "Library versions"
 version_1 = "Version: %s"
 wait = "Please wait..."
+error = "Error"
 menu_file = "&File"
 menu_help = "&Help"
 action_about = "&About"
@@ -63,6 +64,7 @@ ykstd_slots = "YubiKey standard slots"
 enable_slot_1 = "Read from slot %d"
 n_digits = "Number of digits"
 enable_systray = "Show in system tray"
+kill_scdaemon = "Kill scdaemon on show"
 reader_name = "Card reader name"
 no_creds = "No credentials available"
 add_cred = "New credential"
@@ -89,6 +91,16 @@ This action cannot be undone.
 <br><br>
 <b>Delete credential: %s</b>
 """
+slot = "YubiKey slot"
+slot_2 = "Slot %d (%s)"
+free = "free"
+in_use = "in use"
+require_touch = "Require touch"
+no_slot = "No slot chosen"
+no_slot_desc = "Please choose a slot to write the credential to"
+overwrite_slot = "Overwrite slot?"
+overwrite_slot_desc_1 = "This will overwrite the credential currently stored " \
+    "in slot %d. This action cannot be undone."
 
 
 def _translate(qt):
