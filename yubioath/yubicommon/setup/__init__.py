@@ -31,9 +31,11 @@ __all__ = ['get_version', 'setup', 'release']
 
 
 from setuptools import setup as _setup, find_packages, Command
+from setuptools.command.sdist import sdist
 from distutils import log
-from distutils.errors import DistutilsSetupError
+from distutils.errors import DistutilsSetupError, DistutilsModuleError
 from datetime import date
+from glob import glob
 import os
 import re
 
@@ -86,7 +88,44 @@ def setup(**kwargs):
                 install_requires.append(dep)
     cmdclass = kwargs.setdefault('cmdclass', {})
     cmdclass.setdefault('release', release)
+    cmdclass.setdefault('build_man', build_man)
+    cmdclass.setdefault('sdist', custom_sdist)
     return _setup(**kwargs)
+
+
+class custom_sdist(sdist):
+    def run(self):
+        self.run_command('build_man')
+
+        # Run if available:
+        if 'qt_resources' in self.distribution.cmdclass:
+            self.run_command('qt_resources')
+
+        sdist.run(self)
+
+
+class build_man(Command):
+    description = "create man pages from asciidoc source"
+    user_options = []
+    boolean_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        self.cwd = os.getcwd()
+        self.fullname = self.distribution.get_fullname()
+        self.name = self.distribution.get_name()
+        self.version = self.distribution.get_version()
+
+    def run(self):
+        if os.getcwd() != self.cwd:
+            raise DistutilsSetupError("Must be in package root!")
+
+        for fname in glob(os.path.join('man', '*.adoc')):
+            self.announce("Converting: " + fname, log.INFO)
+            self.execute(os.system,
+                         ('a2x -d manpage -f manpage "%s"' % fname,))
 
 
 class release(Command):
@@ -122,6 +161,10 @@ class release(Command):
             raise DistutilsSetupError(
                 "Tag '%s' already exists!" % self.fullname)
 
+    def _verify_not_dirty(self):
+        if os.system('git diff --shortstat | grep -q "."') == 0:
+            raise DistutilsSetupError("Git has uncommitted changes!")
+
     def _sign(self):
         if os.path.isfile('dist/%s.tar.gz.asc' % self.fullname):
             # Signature exists from upload, re-use it:
@@ -149,6 +192,7 @@ class release(Command):
 
         self._verify_version()
         self._verify_tag()
+        self._verify_not_dirty()
         self.run_command('check')
 
         self.execute(os.system, ('git2cl > ChangeLog',))

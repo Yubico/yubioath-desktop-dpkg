@@ -5,6 +5,10 @@ NEWS
 README
 screenshot.png
 setup.py
+man/yubioath-cli.1
+man/yubioath-cli.1.adoc
+man/yubioath.1
+man/yubioath.1.adoc
 qt_resources/calc.png
 qt_resources/copy.png
 qt_resources/yubioath.png
