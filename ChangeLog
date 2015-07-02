@@ -1,3 +1,65 @@
+2015-07-02  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, yubioath/__init__.py: Updated NEWS and version for release.
+
+2015-07-02  Dain Nilsson <dain@yubico.com>
+
+	* resources/win-installer.nsi: Nicer close.
+
+2015-07-02  Dain Nilsson <dain@yubico.com>
+
+	* resources/win-installer.nsi: Kill process in installer and
+	uninstaller (fixes #30).
+
+2015-07-02  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, yubioath/core/controller.py: Fix bug with non-CCId devices
+	(fixes #32).
+
+2015-07-01  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/main.py: Added --version to CLI.
+
+2015-07-01  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon: Updated yubicommon.
+
+2015-06-30  Dain Nilsson <dain@yubico.com>
+
+	* man/yubioath-cli.1.adoc: man page fixes.
+
+2015-06-30  Dain Nilsson <dain@yubico.com>
+
+	* man/yubioath-cli.1.adoc: Man page formatting.
+
+2015-06-30  Dain Nilsson <dain@yubico.com>
+
+	* .gitignore, MANIFEST.in, man/yubioath-cli.1.adoc,
+	man/yubioath.1.adoc, scripts/yubioath-cli.1.adoc,
+	scripts/yubioath.1.adoc, vendor/yubicommon: Moved man files.
+
+2015-06-30  Dain Nilsson <dain@yubico.com>
+
+	* scripts/yubioath-cli.1.adoc, scripts/yubioath-cli.adoc,
+	scripts/yubioath.1.adoc, scripts/yubioath.adoc: Rename mans.
+
+2015-06-30  Dain Nilsson <dain@yubico.com>
+
+	* NEWS: Updated NEWS.
+
+2015-06-30  Dain Nilsson <dain@yubico.com>
+
+	* scripts/yubioath-cli.adoc, scripts/yubioath.adoc: Added man pages.
+
+2015-06-30  Dain Nilsson <dain@yubico.com>
+
+	* .gitignore, MANIFEST.in, setup.py, vendor/yubicommon: Setup for
+	generating man pages from .adoc.
+
+2015-06-26  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/__init__.py: Bump version for development.
+
 2015-06-26  Dain Nilsson <dain@yubico.com>
 
 	* NEWS, yubioath/__init__.py: Prepare for release.
