@@ -26,7 +26,10 @@
 
 from yubioath.yubicommon import qt
 from ...core.standard import TYPE_TOTP, TYPE_HOTP
+from ...core.utils import parse_uri
 from .. import messages as m
+from ..qrparse import parse_qr_codes
+from ..qrdecode import decode_qr_data
 from PySide import QtGui, QtCore
 from base64 import b32decode
 import re
@@ -38,10 +41,10 @@ class B32Validator(QtGui.QValidator):
 
     def __init__(self, parent=None):
         super(B32Validator, self).__init__(parent)
-        self.partial = re.compile(r'^[a-z2-7]+$', re.IGNORECASE)
+        self.partial = re.compile(r'^[ a-z2-7]+$', re.IGNORECASE)
 
     def fixup(self, value):
-        unpadded = value.upper()
+        unpadded = value.upper().replace(' ', '')
         return unpadded + '=' * (-len(unpadded) % 8)
 
     def validate(self, value, pos):
@@ -56,14 +59,19 @@ class B32Validator(QtGui.QValidator):
 
 class AddCredDialog(qt.Dialog):
 
-    def __init__(self, url=None, parent=None):
+    def __init__(self, worker, parent=None):
         super(AddCredDialog, self).__init__(parent)
 
+        self._worker = worker
         self.setWindowTitle(m.add_cred)
         self._build_ui()
 
     def _build_ui(self):
         layout = QtGui.QFormLayout(self)
+
+        self._qr_btn = QtGui.QPushButton(QtGui.QIcon(':/qr.png'), m.qr_scan)
+        self._qr_btn.clicked.connect(self._scan_qr)
+        layout.addRow(self._qr_btn)
 
         self._cred_name = QtGui.QLineEdit()
         self._cred_name.setValidator(NAME_VALIDATOR)
@@ -95,6 +103,35 @@ class AddCredDialog(qt.Dialog):
         btns.rejected.connect(self.reject)
         layout.addRow(btns)
 
+    def _do_scan_qr(self, qimage):
+        for qr in parse_qr_codes(qimage):
+            try:
+                data = decode_qr_data(qr)
+                if data.startswith('otpauth://'):
+                    return parse_uri(data)
+            except:
+                pass
+        return None
+
+    def _scan_qr(self):
+        winId = QtGui.QApplication.desktop().winId()
+        qimage = QtGui.QPixmap.grabWindow(winId).toImage()
+        self._worker.post(m.qr_scanning, (self._do_scan_qr, qimage),
+                          self._handle_qr)
+
+    def _handle_qr(self, parsed):
+        if parsed:
+            self._cred_name.setText(parsed['name'])
+            self._cred_key.setText(parsed['secret'])
+            n_digits = parsed.get('digits', '6')
+            self._n_digits.setCurrentIndex(0 if n_digits == '6' else 1)
+            if parsed['type'] == 'totp':
+                self._cred_totp.setChecked(True)
+            else:
+                self._cred_hotp.setChecked(True)
+        else:
+            QtGui.QMessageBox.warning(self, m.qr_not_found, m.qr_not_found_desc)
+
     def _save(self):
         if not self._cred_name.hasAcceptableInput():
             QtGui.QMessageBox.warning(self, m.invalid_name, m.invalid_name_desc)
@@ -111,8 +148,7 @@ class AddCredDialog(qt.Dialog):
 
     @property
     def key(self):
-        unpadded = self._cred_key.text().upper()
-        return b32decode(unpadded + '=' * (-len(unpadded) % 8))
+        return self._cred_key.validator().fixup(self._cred_key.text())
 
     @property
     def oath_type(self):

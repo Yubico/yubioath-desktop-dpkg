@@ -1,3 +1,105 @@
+2015-08-18  Dain Nilsson <dain@yubico.com>
+
+	* setup.py: Remove test from setup.py as there are no tests.
+
+2015-08-18  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, yubioath/__init__.py: Updated NEWS and version for release.
+
+2015-08-18  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon, yubioath/gui/messages.py: Updated yubicommon.
+
+2015-08-17  Dain Nilsson <dain@yubico.com>
+
+	* README: Added note about CCID mode in README.
+
+2015-08-17  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/messages.py, yubioath/gui/view/add_cred.py,
+	yubioath/gui/view/add_cred_legacy.py: Added QR icon.
+
+2015-08-17  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/qrparse.py: Rewrote QR code parsing.
+
+2015-08-14  Dain Nilsson <dain@yubico.com>
+
+	* NEWS: Updated NEWS.
+
+2015-08-14  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon: Updated yubicommon.
+
+2015-08-14  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/__main__.py, yubioath/gui/messages.py,
+	yubioath/gui/qrparse.py, yubioath/gui/view/add_cred.py,
+	yubioath/gui/view/add_cred_legacy.py: Added initial support for
+	scanning QR codes.
+
+2015-08-14  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/qrdecode.py, yubioath/gui/qrparse.py: Added QR
+	parsing/decoding.
+
+2015-08-06  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, yubioath/gui/__main__.py: Added option to start minimized to
+	tray (fixes #34).
+
+2015-08-06  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, yubioath/gui/__main__.py, yubioath/gui/view/settings.py: 
+	Make systray icon diabled by default.
+
+2015-08-06  Dain Nilsson <dain@yubico.com>
+
+	* resources/osx-patch-ccid: Made osx-patch-ccid fail gracefully.  Throwing an exception causes the installer to fail, which we don't
+	want.
+
+2015-08-06  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon: Updated yubicommon.
+
+2015-08-06  Dain Nilsson <dain@yubico.com>
+
+	* NEWS: Updated NEWS.
+
+2015-08-06  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon: Updated yubicommon to enable executable builds
+	again.
+
+2015-08-06  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/ccid.py: Don't crash of PC/SC isn't available.
+
+2015-08-06  Dain Nilsson <dain@yubico.com>
+
+	* scripts/yubioath, scripts/yubioath-cli, setup.py,
+	yubioath/cli/__main__.py, yubioath/cli/main.py,
+	yubioath/gui/__main__.py, yubioath/gui/main.py: Use entry_points
+	instead of scripts.
+
+2015-08-05  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/messages.py, yubioath/gui/view/settings.py: Added
+	tooltips to settings fields.
+
+2015-07-02  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, yubioath/__init__.py: Bumped version.
+
+2015-07-02  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/view/add_cred.py: Permit (but ignore) spaces in keys
+	(fixes #33).
+
+2015-07-02  Dain Nilsson <dain@yubico.com>
+
+	* .gitignore, man/yubioath.1.adoc: man page formatting.
+
 2015-07-02  Dain Nilsson <dain@yubico.com>
 
 	* NEWS, yubioath/__init__.py: Updated NEWS and version for release.

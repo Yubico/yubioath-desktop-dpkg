@@ -25,6 +25,8 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+from __future__ import absolute_import
+
 from setuptools import Command
 from distutils.errors import DistutilsSetupError
 import os
@@ -53,12 +55,9 @@ class executable(Command):
 
         os.environ['pyinstaller_data'] = json.dumps({
             'debug': self.debug,
-            'version': self.distribution.get_version(),
             'name': self.distribution.get_name(),
             'fullname': getattr(self.distribution, 'fullname',
-                                self.distribution.get_name()),
-            'ver_name': self.distribution.get_fullname(),
-            'scripts': self.distribution.scripts
+                                self.distribution.get_name())
         })
 
         spec = tempfile.NamedTemporaryFile(suffix='.spec', delete=False)

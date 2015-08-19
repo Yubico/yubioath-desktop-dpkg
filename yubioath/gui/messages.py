@@ -101,6 +101,25 @@ no_slot_desc = "Please choose a slot to write the credential to"
 overwrite_slot = "Overwrite slot?"
 overwrite_slot_desc_1 = "This will overwrite the credential currently stored " \
     "in slot %d. This action cannot be undone."
+qr_scan = "Scan a QR code"
+qr_scanning = "Scanning for QR code..."
+qr_not_found = "QR code not found"
+qr_not_found_desc = "No usable QR code detected. Make sure the QR code is " \
+    "fully visible on your primary screen and try again."
+qr_not_supported = "Credential not supported"
+qr_not_supported_desc = "This credential type is not supported for slot " \
+    "based usage."
+tt_slot_enabled_1 = "Check to calculate TOTP codes using the YubiKey " \
+    "standard slot %d credential."
+tt_num_digits = "The number of digits to show for the credential."
+tt_systray = "When checked, display an icon in the systray, and leave the " \
+    "application running there when closed."
+tt_kill_scdaemon = "Kills any running scdaemon process when the window is " \
+    "shown. This is useful when using this application together with GnuPG " \
+    "to avoid GnuPG locking the device."
+tt_reader_name = "Changes the default smartcard reader name to look for. " \
+    "This can be used to target a specific YubiKey when multiple are used, " \
+    "or to target an NFC reader."
 
 
 def _translate(qt):
