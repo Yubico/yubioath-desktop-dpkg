@@ -1,11 +1,16 @@
 # -*- mode: python -*-
 # -*- encoding: utf-8 -*-
 
+from __future__ import absolute_import
+from __future__ import print_function
+
 import os
 import sys
 import json
 import errno
+import pkg_resources
 from glob import glob
+
 
 VS_VERSION_INFO = """
 VSVersionInfo(
@@ -50,7 +55,13 @@ VSVersionInfo(
 )"""
 
 data = json.loads(os.environ['pyinstaller_data'])
-data = dict(map(lambda (k, v): (k, v.encode('ascii') if isinstance(v, unicode) else v), data.items()))
+try:
+    data = dict((k, v.encode('ascii') if isinstance(v, unicode) else v)
+                for k, v in data.items())
+except NameError:
+    pass  # Python 3, encode not needed.
+dist = pkg_resources.get_distribution(data['name'])
+ver_str = dist.version
 
 DEBUG = bool(data['debug'])
 NAME = data['fullname']
@@ -71,29 +82,40 @@ ICON = os.path.join('resources', '%s.%s' % (data['name'], icon_ext))
 if not os.path.isfile(ICON):
     ICON = None
 
+# Generate scripts from entry_points.
 merge = []
-for script in [s.encode('ascii') for s in data['scripts']]:
-    a_name = script.rsplit('/', 1)[-1]
-    a = Analysis(
-        [script],
-        pathex=[''],
-        hiddenimports=[],
-        hookspath=None,
-        runtime_hooks=None
+entry_map = dist.get_entry_map()
+console_scripts = entry_map.get('console_scripts', {})
+gui_scripts = entry_map.get('gui_scripts', {})
+
+for ep in list(console_scripts.values()) + list(gui_scripts.values()):
+    script_path = os.path.join(WORKPATH, ep.name + '-script.py')
+    with open(script_path, 'w') as fh:
+        fh.write("import %s\n" % ep.module_name)
+        fh.write("%s.%s()\n" % (ep.module_name, '.'.join(ep.attrs)))
+    merge.append(
+        (Analysis([script_path], [dist.location], None, None, None, None),
+         ep.name, ep.name + file_ext)
     )
-    merge.append((a, a_name, a_name + file_ext))
+
 
 MERGE(*merge)
 
-# Read version string
-ver_str = data['version']
 
 # Read version information on Windows.
 VERSION = None
 if WIN:
     VERSION = 'build/file_version_info.txt'
 
-    ver_tup = tuple(map(int, ver_str.split('.')))
+    global int_or_zero  # Needed due to how this script is invoked
+
+    def int_or_zero(v):
+        try:
+            return int(v)
+        except ValueError:
+            return 0
+
+    ver_tup = tuple(int_or_zero(v) for v in ver_str.split('.'))
     # Windows needs 4-tuple.
     if len(ver_tup) < 4:
         ver_tup += (0,) * (4-len(ver_tup))
@@ -110,19 +132,19 @@ if WIN:
             'exe_name': NAME + file_ext
         })
 
-pyzs = map(lambda m: PYZ(m[0].pure), merge)
+pyzs = [PYZ(m[0].pure) for m in merge]
 
 exes = []
-for (a, _, a_name), pyz in zip(merge, pyzs):
+for (a, a_name, a_name_ext), pyz in zip(merge, pyzs):
     exe = EXE(pyz,
               a.scripts,
               exclude_binaries=True,
-              name=a_name,
+              name=a_name_ext,
               debug=DEBUG,
               strip=None,
               upx=True,
               # All but the first executable become console scripts.
-              console=DEBUG or len(exes) > 0,
+              console=DEBUG or a_name in console_scripts,
               append_pkg=not OSX,
               version=VERSION,
               icon=ICON)
@@ -164,7 +186,7 @@ if WIN:
     installer_cfg = 'resources/win-installer.nsi'
     if os.path.isfile(installer_cfg):
         os.system('makensis.exe -D"VERSION=%s" %s' % (ver_str, installer_cfg))
-        installer = "dist/%s-win.exe" % data['ver_name']
+        installer = "dist/%s-%s-win.exe" % (data['name'], ver_str)
         os.system("signtool.exe sign /t http://timestamp.verisign.com/scripts/timstamp.dll \"%s\"" %
                  (installer))
-        print "Installer created: %s" % installer
+        print("Installer created: %s" % installer)

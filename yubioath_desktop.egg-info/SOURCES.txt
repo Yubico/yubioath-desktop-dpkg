@@ -11,6 +11,7 @@ man/yubioath.1
 man/yubioath.1.adoc
 qt_resources/calc.png
 qt_resources/copy.png
+qt_resources/qr.png
 qt_resources/yubioath.png
 resources/installer_bg.png
 resources/linux-patch-ccid
@@ -22,13 +23,11 @@ resources/yubioath-desktop.ico
 resources/yubioath-desktop.png
 resources/yubioath.desktop
 resources/yubioath.xpm
-scripts/yubioath
-scripts/yubioath-cli
 yubioath/__init__.py
 yubioath/cli/__init__.py
+yubioath/cli/__main__.py
 yubioath/cli/controller.py
 yubioath/cli/keystore.py
-yubioath/cli/main.py
 yubioath/cli/unlocker.py
 yubioath/core/__init__.py
 yubioath/core/ccid.py
@@ -39,12 +38,14 @@ yubioath/core/legacy_otp.py
 yubioath/core/standard.py
 yubioath/core/utils.py
 yubioath/gui/__init__.py
+yubioath/gui/__main__.py
 yubioath/gui/ccid.py
 yubioath/gui/ccid_poll.py
 yubioath/gui/controller.py
 yubioath/gui/keystore.py
-yubioath/gui/main.py
 yubioath/gui/messages.py
+yubioath/gui/qrdecode.py
+yubioath/gui/qrparse.py
 yubioath/gui/qt_resources.py
 yubioath/gui/view/__init__.py
 yubioath/gui/view/add_cred.py
@@ -69,5 +70,6 @@ yubioath/yubicommon/setup/qt.py
 yubioath_desktop.egg-info/PKG-INFO
 yubioath_desktop.egg-info/SOURCES.txt
 yubioath_desktop.egg-info/dependency_links.txt
+yubioath_desktop.egg-info/entry_points.txt
 yubioath_desktop.egg-info/requires.txt
 yubioath_desktop.egg-info/top_level.txt
