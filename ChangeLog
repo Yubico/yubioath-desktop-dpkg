@@ -1,6 +1,23 @@
-2015-08-18  Dain Nilsson <dain@yubico.com>
+2015-08-20  Dain Nilsson <dain@yubico.com>
 
-	* setup.py: Remove test from setup.py as there are no tests.
+	* NEWS, yubioath/__init__.py: Updated NEWS for release.
+
+2015-08-20  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/utils.py: Handle whitespace surrounding OTP URL.
+
+2015-08-20  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/__init__.py, yubioath/gui/view/add_cred.py: Fix not
+	decoding secrets from base32.
+
+2015-08-19  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon: Updated yubicommon.
+
+2015-08-18  Dain Nilsson <dainzor@gmail.com>
+
+	* : Merge pull request #42 from pelme/patch-1 Fix typo in README
 
 2015-08-18  Dain Nilsson <dain@yubico.com>
 
@@ -9,6 +26,10 @@
 2015-08-18  Dain Nilsson <dain@yubico.com>
 
 	* vendor/yubicommon, yubioath/gui/messages.py: Updated yubicommon.
+
+2015-08-18  Andreas Pelme <andreas@pelme.se>
+
+	* README: Fix typo in README
 
 2015-08-17  Dain Nilsson <dain@yubico.com>
 
