@@ -1,0 +1,12 @@
+--- a/setup.py
++++ b/setup.py
+@@ -44,7 +44,8 @@
+         'console_scripts': ['yubioath-cli=yubioath.cli.__main__:main']
+     },
+     setup_requires=[],
+-    yc_requires=['ctypes', 'qt'],
++    yc_requires=['ctypes'],
++    packages=['yubioath', 'yubioath.gui', 'yubioath.yubicommon', 'yubioath.cli', 'yubioath.core', 'yubioath.gui.view', 'yubioath.yubicommon.setup', 'yubioath.yubicommon.ctypes', 'yubioath.yubicommon.qt'],
+     install_requires=['pyscard', 'pycrypto'],
+     extras_require={
+         'argcomplete': ['argcomplete']
