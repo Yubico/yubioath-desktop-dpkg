@@ -1,3 +1,6 @@
+Description: Remove PySide requirement, since python-pyside does not register itself correctly
+Author: Dain Nilsson <dain@yubico.com>
+Forwarded: no
 --- a/setup.py
 +++ b/setup.py
 @@ -44,7 +44,8 @@
