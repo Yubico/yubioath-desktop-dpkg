@@ -64,7 +64,7 @@ dist = pkg_resources.get_distribution(data['name'])
 ver_str = dist.version
 
 DEBUG = bool(data['debug'])
-NAME = data['fullname']
+NAME = data['long_name']
 
 WIN = sys.platform in ['win32', 'cygwin']
 OSX = sys.platform in ['darwin']
@@ -157,6 +157,9 @@ for (a, a_name, a_name_ext), pyz in zip(merge, pyzs):
 collect = []
 for (a, _, a_name), exe in zip(merge, exes):
     collect += [exe, a.binaries, a.zipfiles, a.datas]
+
+# Data files
+collect.append([(os.path.basename(fn), fn, 'DATA') for fn in data['data_files']])
 
 # DLLs, dylibs and executables should go here.
 collect.append([(fn[4:], fn, 'BINARY') for fn in glob('lib/*')])

@@ -25,9 +25,12 @@
 # for the parts of OpenSSL used as well as that of the covered work.
 
 from PySide import QtGui, QtCore
+
 from yubioath import __version__ as version
+from yubioath.gui.view.ccid_disabled import CcidDisabledDialog
 from yubioath.yubicommon import qt
 from ..cli.keystore import CONFIG_HOME
+
 try:
     from ..core.legacy_otp import ykpers_version
 except ImportError:
@@ -67,7 +70,15 @@ class MainWidget(QtGui.QStackedWidget):
 
         self._build_ui()
         controller.refreshed.connect(self._refresh)
+        controller.ccid_disabled.connect(self.ccid_disabled)
         controller.watcher.status_changed.connect(self._set_status)
+
+    def ccid_disabled(self):
+        if not self._controller.mute_ccid_disabled_warning:
+            dialog = CcidDisabledDialog()
+            dialog.exec_()
+            if dialog.do_not_ask_again.isChecked():
+                self._controller.mute_ccid_disabled_warning = 1
 
     def showEvent(self, event):
         event.accept()
@@ -176,6 +187,7 @@ class YubiOathApplication(qt.Application):
         event.accept()
 
     def _on_hide(self, event):
+        self._controller.forget_passwords()
         event.accept()
 
     def _on_closed(self, event):
@@ -198,15 +210,17 @@ class YubiOathApplication(qt.Application):
     def _add_credential(self):
         c = self._controller.get_capabilities()
         if c.ccid:
-            dialog = AddCredDialog(self.worker, parent=self.window)
+            dialog = AddCredDialog(self.worker, c.version, parent=self.window)
             if dialog.exec_():
                 if not self._controller._reader:
                     QtGui.QMessageBox.critical(
                         self.window, m.key_removed, m.key_removed_desc)
                 else:
-                    self._controller.add_cred(dialog.name, dialog.key,
-                                              oath_type=dialog.oath_type,
-                                              digits=dialog.n_digits)
+                    self._controller.add_cred(
+                        dialog.name, dialog.key, oath_type=dialog.oath_type,
+                        digits=dialog.n_digits,
+                        require_touch=dialog.require_touch
+                    )
         elif c.otp:
             dialog = AddCredLegacyDialog(self.worker, c.otp, parent=self.window)
             if dialog.exec_():

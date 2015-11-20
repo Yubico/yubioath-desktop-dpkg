@@ -1,3 +1,118 @@
+2015-11-20  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, yubioath/__init__.py: Prepare for release.
+
+2015-11-19  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, yubioath/__init__.py: Update version and NEWS.
+
+2015-11-19  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/__main__.py, yubioath/gui/controller.py,
+	yubioath/gui/view/add_cred.py: Support programming touch credentials
+	in GUI.
+
+2015-11-19  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/view/codes.py: Fix double-click to calculate, copy,
+	and close.
+
+2015-11-19  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/controller.py: Handle touch HOTP.
+
+2015-11-19  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/controller.py, yubioath/gui/view/codes.py: Better
+	support for touch credentials and HOTP.
+
+2015-11-18  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/controller.py, yubioath/core/legacy_otp.py,
+	yubioath/gui/controller.py, yubioath/gui/view/codes.py: Initial
+	support for touch credentials in GUI.
+
+2015-11-19  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/controller.py, yubioath/core/legacy_otp.py: Improved
+	handing of OTP credentials.
+
+2015-11-18  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/__main__.py, yubioath/core/ccid.py,
+	yubioath/core/legacy_otp.py, yubioath/core/standard.py: Added
+	support for touch credentials to CLI.
+
+2015-11-16  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, yubioath/gui/__main__.py, yubioath/gui/controller.py,
+	yubioath/gui/keystore.py: Clear password cache on hide.
+
+2015-11-13  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon: Update yubicommon.
+
+2015-10-13  Henrik Stråth <minisu@users.noreply.github.com>
+
+	* : Merge pull request #56 from jsha/patch-1 Correct typo in source build instructions
+
+2015-10-12  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, yubioath/gui/controller.py: Fixed issue with timer drift.
+
+2015-10-05  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, vendor/yubicommon, yubioath/__init__.py: Updated yubicommon
+	and bumped version.
+
+2015-10-05  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/__main__.py: Test for exact match when filtering.
+
+2015-10-05  Dain Nilsson <dain@yubico.com>
+
+	* man/yubioath-cli.1.adoc, yubioath/cli/__main__.py: Default to 6
+	digits if not specified (CLI).
+
+2015-10-05  Dain Nilsson <dain@yubico.com>
+
+	* man/yubioath-cli.1.adoc: Fix typo in man page.
+
+2015-09-29  Dain Nilsson <dainzor@gmail.com>
+
+	* : Merge pull request #52 from Yubico/ccid-disabled-warning Added warning dialog when YK with CCID disabled is inserted
+
+2015-09-16  Henrik Stråth <henrik@yubico.com>
+
+	* yubioath/core/utils.py, yubioath/gui/__main__.py,
+	yubioath/gui/controller.py, yubioath/gui/utils.py,
+	yubioath/gui/view/dialogs.py: Added warning dialog when YK with CCID
+	disabled is inserted
+
+2015-09-11  Henrik Stråth <henrik@yubico.com>
+
+	* .gitignore: Added entry to .gitignore
+
+2015-09-10  Henrik Stråth <minisu@users.noreply.github.com>
+
+	* README: Mentioned minimal OS X version in README
+
+2015-08-21  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/utils.py: Unquote otpauth URLs (fixes #44).
+
+2015-08-21  Henrik Stråth <henrik@yubico.com>
+
+	* README: Screenshot replaced by usage.gif
+
+2015-08-20  Dain Nilsson <dain@yubico.com>
+
+	* setup.py, vendor/yubicommon: Updated yubicommon.
+
+2015-08-20  Dain Nilsson <dain@yubico.com>
+
+	* setup.py, vendor/yubicommon: Updated yubicommon.
+
 2015-08-20  Dain Nilsson <dain@yubico.com>
 
 	* NEWS, yubioath/__init__.py: Updated NEWS for release.
