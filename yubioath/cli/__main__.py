@@ -130,11 +130,26 @@ class YubiOathCli(object):
             return 1
 
         if args.query:
-            query = args.query.lower()
-            creds = filter(lambda (c, _): query in c.name.lower(), creds)
-            if len(creds) == 1 and creds[0][0].oath_type == TYPE_HOTP:
-                cred = creds[0][0]
-                creds = [(cred, cred.calculate(args.timestamp))]
+            # Filter based on query. If exact match, show only that result.
+            matched = []
+            for cred, code in creds:
+                if cred.name == args.query:
+                    matched = [(cred, code)]
+                    break
+                if args.query.lower() in cred.name.lower():
+                    matched.append((cred, code))
+
+            # Only calculate Touch/HOTP codes if the credential is singled out.
+            if len(matched) == 1:
+                (cred, code) = matched[0]
+                if not code:
+                    if cred.touch:
+                        self._controller._prompt_touch()
+                    creds = [(cred, cred.calculate(args.timestamp))]
+                else:
+                    creds = [(cred, code)]
+            else:
+                creds = matched
 
         print_creds(creds)
 
@@ -162,6 +177,7 @@ class YubiOathCli(object):
             args.digits = args.digits or int(parsed.get('digits', '6'))
             args.imf = args.imf or int(parsed.get('counter', '0'))
 
+        args.digits = args.digits or 6
         unpadded = args.key.upper()
         args.key = b32decode(unpadded + '=' * (-len(unpadded) % 8))
 
@@ -178,7 +194,8 @@ class YubiOathCli(object):
                     return 1
             oath_type = TYPE_TOTP if args.oath_type == 'totp' else TYPE_HOTP
             self._controller.add_cred(self._dev, args.name, args.key, oath_type,
-                                      digits=args.digits, imf=args.imf)
+                                      digits=args.digits, imf=args.imf,
+                                      require_touch=args.touch)
         else:
             self._controller.add_cred_legacy(args.destination, args.key,
                                              args.touch)
@@ -264,7 +281,10 @@ def print_creds(results):
     format_str = '{:<%d}  {:>10}' % longest
     for (cred, code) in results:
         if code is None:
-            code = '[HOTP credential]'
+            if cred.oath_type == TYPE_HOTP:
+                code = '[HOTP credential]'
+            elif cred.touch:
+                code = '[Touch credential]'
         print format_str.format(cred, code)
 
 

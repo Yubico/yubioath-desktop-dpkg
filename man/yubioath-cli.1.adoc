@@ -46,7 +46,7 @@ to the global options:
     Use the user provided TIMESTAMP instead of the system clock.
 
 *QUERY*::
-    A filter string to match credential names agains. If given, only
+    A filter string to match credential names against. If given, only
     credentials containing the QUERY substring will be displayed. For HOTP
     credentials, codes will only be calculated when given a QUERY which
     uniquely specifices the credential as to avoid unwanted counter
@@ -71,7 +71,8 @@ to the global options:
     Not applicable to slot-based credentials.
 
 *-D, --digits DIGITS*::
-    The number of digits to output when generating codes. Should be *6* or *8*.
+    The number of digits to output when generating codes. Should be *6*
+    (default) or *8*.
     Not applicable to slot-based credentials.
 
 *-I IMF, --imf IMF*::

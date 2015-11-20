@@ -31,6 +31,7 @@ from .worker import Worker
 import os
 import sys
 import time
+import importlib
 
 __all__ = ['Application', 'Dialog', 'MutexLocker']
 
@@ -81,6 +82,7 @@ class _MainWindow(QtGui.QMainWindow):
 
 
 class Application(QtGui.QApplication):
+    _quit = False
 
     def __init__(self, m=None):
         super(Application, self).__init__(sys.argv)
@@ -97,7 +99,9 @@ class Application(QtGui.QApplication):
             self.basedir = sys._MEIPASS
         else:
             # we are running in a normal Python environment
-            self.basedir = os.path.dirname(__file__)
+            top_module_str = __package__.split('.')[0]
+            top_module = importlib.import_module(top_module_str)
+            self.basedir = os.path.dirname(top_module.__file__)
 
     def ensure_singleton(self, name=None):
         if not name:
@@ -121,8 +125,15 @@ class Application(QtGui.QApplication):
         self.window.show()
         self.window.activateWindow()
 
+    def quit(self):
+        super(Application, self).quit()
+        self._quit = True
+
     def exec_(self):
-        status = super(Application, self).exec_()
+        if not self._quit:
+            status = super(Application, self).exec_()
+        else:
+            status = 0
         self.worker.thread().quit()
         self.deleteLater()
         time.sleep(0.01)  # Without this the process sometimes stalls.

@@ -3,7 +3,6 @@ ChangeLog
 MANIFEST.in
 NEWS
 README
-screenshot.png
 setup.py
 man/yubioath-cli.1
 man/yubioath-cli.1.adoc
@@ -50,6 +49,7 @@ yubioath/gui/qt_resources.py
 yubioath/gui/view/__init__.py
 yubioath/gui/view/add_cred.py
 yubioath/gui/view/add_cred_legacy.py
+yubioath/gui/view/ccid_disabled.py
 yubioath/gui/view/codes.py
 yubioath/gui/view/get_password.py
 yubioath/gui/view/set_password.py

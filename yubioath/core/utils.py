@@ -27,7 +27,11 @@
 from Crypto.Hash import HMAC, SHA
 from Crypto.Protocol.KDF import PBKDF2
 from Crypto.Random import get_random_bytes
-from urlparse import urlparse, parse_qs
+try:
+    from urlparse import urlparse, parse_qs
+    from urllib import unquote
+except ImportError:
+    from urllib.parse import unquote
 import subprocess
 import struct
 import time
@@ -72,7 +76,7 @@ def parse_uri(uri):
     if parsed.scheme != 'otpauth':  # Not a uri, assume secret.
         return {'secret': uri}
     params = dict((k, v[0]) for k, v in parse_qs(parsed.query).items())
-    params['name'] = parsed.path[1:]
+    params['name'] = unquote(parsed.path)[1:]  # Unquote and strip leading /
     params['type'] = parsed.hostname
     if 'issuer' in params and not params['name'].startswith(params['issuer']):
         params['name'] = params['issuer'] + ':' + params['name']
@@ -142,3 +146,28 @@ def kill_scdaemon():
             for pid in pids.split():
                 print "Killing", pid
                 subprocess.call(['kill', '-9', pid])
+
+
+YUBICO_VID = 0x1050
+NON_CCID_NEO_PIDS = [0x0110, 0x0114]
+
+def ccid_supported_but_disabled():
+    """
+    Check whether the first connected YubiKey supports CCID, but has it disabled.
+    """
+    try:
+        # PyUSB >= 1.0, this is a workaround for a problem with libusbx
+        # on Windows.
+        import usb.core
+        import usb.legacy
+        devices = [usb.legacy.Device(d) for d in usb.core.find(
+            find_all=True, idVendor=YUBICO_VID)]
+    except ImportError:
+        # Using PyUsb < 1.0.
+        import usb
+        devices = [d for bus in usb.busses() for d in bus.devices]
+    for device in devices:
+        if device.idVendor == YUBICO_VID:
+            if device.idProduct in NON_CCID_NEO_PIDS:
+                return True
+    return False
