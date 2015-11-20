@@ -1,3 +1,9 @@
+yubioath-desktop (2.3.0-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Dain Nilsson <dain@yubico.com>  Fri, 20 Nov 2015 11:47:09 +0100
+
 yubioath-desktop (2.2.1-1) unstable; urgency=low
 
   * New upstream version.
