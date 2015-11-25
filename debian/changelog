@@ -1,18 +1,5 @@
 yubioath-desktop (2.3.0-1) unstable; urgency=low
 
-  * New upstream version.
-  * Removed .menu file.
-
- -- Dain Nilsson <dain@yubico.com>  Fri, 20 Nov 2015 11:47:09 +0100
-
-yubioath-desktop (2.2.1-1) unstable; urgency=low
-
-  * New upstream version.
-
- -- Dain Nilsson <dain@yubico.com>  Thu, 20 Aug 2015 10:40:17 +0200
-
-yubioath-desktop (2.1.1-1) unstable; urgency=low
-
   * Initial release (Closes: #742128)
 
- -- Dain Nilsson <dain@yubico.com>  Thu, 02 Jul 2015 15:51:24 +0200
+ -- Dain Nilsson <dain@yubico.com>  Wed, 25 Nov 2015 15:17:32 +0100
