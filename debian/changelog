@@ -1,3 +1,9 @@
+yubioath-desktop (3.0.1-1) UNRELEASED; urgency=medium
+
+  * Update to new version
+
+ -- Dag Heyman <dag@yubico.com>  Tue, 14 Jun 2016 14:09:39 +0200
+
 yubioath-desktop (2.3.0-1) unstable; urgency=low
 
   * Initial release (Closes: #742128)
