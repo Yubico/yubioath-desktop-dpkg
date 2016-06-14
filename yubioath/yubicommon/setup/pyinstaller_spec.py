@@ -56,12 +56,11 @@ VSVersionInfo(
 
 data = json.loads(os.environ['pyinstaller_data'])
 try:
-    data = dict((k, v.encode('ascii') if isinstance(v, unicode) else v)
+    data = dict((k, v.encode('ascii') if getattr(v, 'encode', None) else v)
                 for k, v in data.items())
 except NameError:
     pass  # Python 3, encode not needed.
 dist = pkg_resources.get_distribution(data['name'])
-ver_str = dist.version
 
 DEBUG = bool(data['debug'])
 NAME = data['long_name']
@@ -69,6 +68,9 @@ NAME = data['long_name']
 WIN = sys.platform in ['win32', 'cygwin']
 OSX = sys.platform in ['darwin']
 
+ver_str = dist.version
+if data['package_version'] > 0:
+    ver_str += '.%d' % data['package_version']
 file_ext = '.exe' if WIN else ''
 
 if WIN:
@@ -89,7 +91,7 @@ console_scripts = entry_map.get('console_scripts', {})
 gui_scripts = entry_map.get('gui_scripts', {})
 
 for ep in list(gui_scripts.values()) + list(console_scripts.values()):
-    script_path = os.path.join(WORKPATH, ep.name + '-script.py')
+    script_path = os.path.join(os.getcwd(), ep.name + '-script.py')
     with open(script_path, 'w') as fh:
         fh.write("import %s\n" % ep.module_name)
         fh.write("%s.%s()\n" % (ep.module_name, '.'.join(ep.attrs)))
@@ -129,7 +131,7 @@ if WIN:
             'internal_name': data['name'],
             'ver_tup': ver_tup,
             'ver_str': ver_str,
-            'exe_name': NAME + file_ext
+            'exe_name': data['name'] + file_ext
         })
 
 pyzs = [PYZ(m[0].pure) for m in merge]
@@ -151,7 +153,7 @@ for (a, a_name, a_name_ext), pyz in zip(merge, pyzs):
 
     # Sign the executable
     if WIN:
-        os.system("signtool.exe sign /t http://timestamp.verisign.com/scripts/timstamp.dll \"%s\"" %
+        os.system("signtool.exe sign /fd SHA256 /t http://timestamp.verisign.com/scripts/timstamp.dll \"%s\"" %
                 (exe.name))
 
 collect = []
@@ -165,6 +167,11 @@ collect.append([(os.path.basename(fn), fn, 'DATA') for fn in data['data_files']]
 collect.append([(fn[4:], fn, 'BINARY') for fn in glob('lib/*')])
 
 coll = COLLECT(*collect, strip=None, upx=True, name=NAME)
+
+# Write package version for app to display
+pversion_fn = os.path.join('dist', NAME, 'package_version.txt')
+with open(pversion_fn, 'w') as f:
+    f.write(str(data['package_version']))
 
 # Create .app for OSX
 if OSX:
@@ -189,6 +196,6 @@ if WIN:
     if os.path.isfile(installer_cfg):
         os.system('makensis.exe -D"VERSION=%s" %s' % (ver_str, installer_cfg))
         installer = "dist/%s-%s-win.exe" % (data['name'], ver_str)
-        os.system("signtool.exe sign /t http://timestamp.verisign.com/scripts/timstamp.dll \"%s\"" %
+        os.system("signtool.exe sign /fd SHA256 /t http://timestamp.verisign.com/scripts/timstamp.dll \"%s\"" %
                  (installer))
         print("Installer created: %s" % installer)

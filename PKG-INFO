@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: yubioath-desktop
-Version: 2.3.0
+Version: 3.0.1
 Summary: Graphical interface for displaying OATH codes with a Yubikey
 Home-page: https://github.com/Yubico/yubioath-desktop
 Author: Yubico Open Source Maintainers

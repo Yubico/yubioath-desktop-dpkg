@@ -31,13 +31,15 @@ and the input will thus have to be without any errors. Only supports numeric,
 alphanumeric and byte encodings.
 """
 
+from __future__ import division
+
 __all__ = ['decode_qr_data']
 
 
 def decode_qr_data(qr_data):
     """Given a 2D matrix of QR data, returns the encoded string"""
     size = len(qr_data)
-    version = (size - 17) / 4
+    version = (size - 17) // 4
     level = bits_to_int(qr_data[8][:2])
     mask = bits_to_int(qr_data[8][2:5]) ^ 0b101
 
@@ -327,7 +329,7 @@ def read_bits(qr_data, read_mask, mask):
     mask_f = MASKS[mask]
     bits = []
     # Skip over vertical timing pattern
-    for x in reversed(range(0, 6, 2) + range(7, size, 2)):
+    for x in reversed(list(range(0, 6, 2)) + list(range(7, size, 2))):
         y_range = range(0, size)
         if (size - x)/2 % 2 != 0:
             y_range = reversed(y_range)

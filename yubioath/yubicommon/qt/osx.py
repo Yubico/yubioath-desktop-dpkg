@@ -24,36 +24,26 @@
 # non-source form of such a combination shall include the source code
 # for the parts of OpenSSL used as well as that of the covered work.
 
+import ctypes
+from ..ctypes import CLibrary
 
-class CardError(Exception):
-
-    def __init__(self, status, message=''):
-        super(CardError, self).__init__('Card Error (%04x): %s' %
-                                        (status, message))
-        self.status = status
+__all__ = ['app_services']
 
 
-class DeviceLockedError(Exception):
-
-    def __init__(self):
-        super(DeviceLockedError, self).__init__('Device is locked!')
-
-
-class NoSpaceError(Exception):
-
-    def __init__(self):
-        super(NoSpaceError, self).__init__('No space available on device.')
+class ProcessSerialNumber(ctypes.Structure):
+    _fields_ = [('highLongOfPsn', ctypes.c_uint32),
+                ('lowLongOfPSN', ctypes.c_uint32)]
 
 
-class InvalidSlotError(Exception):
+class ApplicationServices(CLibrary):
+    ShowHideProcess = [ctypes.POINTER(ProcessSerialNumber), ctypes.c_bool], None
+    GetFrontProcess = [ctypes.POINTER(ProcessSerialNumber)], None
 
-    def __init__(self):
-        super(InvalidSlotError, self).__init__(
-            'The selected slot does not contain a valid OATH credential.')
+    def osx_hide(self):
+        """ Hide the window and let the dock
+        icon be able to show the window again. """
+        psn = ProcessSerialNumber()
+        self.GetFrontProcess(ctypes.byref(psn))
+        self.ShowHideProcess(ctypes.byref(psn), False)
 
-
-class NeedsTouchError(Exception):
-
-    def __init__(self):
-        super(NeedsTouchError, self).__init__(
-            'The selected slot needs touch to be used.')
+app_services = ApplicationServices('ApplicationServices')

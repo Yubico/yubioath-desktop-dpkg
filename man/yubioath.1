@@ -2,12 +2,12 @@
 .\"     Title: yubioath
 .\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
 .\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
-.\"      Date: 11/20/2015
+.\"      Date: 06/13/2016
 .\"    Manual: Yubico Authenticator Manual
 .\"    Source: yubioath
 .\"  Language: English
 .\"
-.TH "YUBIOATH" "1" "11/20/2015" "yubioath" "Yubico Authenticator Manual"
+.TH "YUBIOATH" "1" "06/13/2016" "yubioath" "Yubico Authenticator Manual"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -28,16 +28,250 @@
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-yubioath \- Yubico Authenticator graphical interface
+yubioath \- Yubico Authenticator command line interface
 .SH "SYNOPSIS"
 .sp
-\fByubioath\fR
+\fByubioath\fR [OPTIONS] COMMAND [ARGS]\&...
 .SH "DESCRIPTION"
 .sp
 The Yubico Authenticator is a graphical desktop tool for generating Open AuTHentication (OATH) event\-based HOTP and time\-based TOTP one\-time password codes, with the help of a YubiKey that protects the shared secrets\&.
+.SH "OPTIONS"
+.sp
+yubioath has the following options:
+.PP
+\fB\-v, \-\-version\fR
+.RS 4
+Prints the version of the application and exits\&.
+.RE
+.PP
+\fB\-h, \-\-help\fR
+.RS 4
+Shows a list of available sub commands and arguments\&.
+.RE
+.PP
+\fB\-R, \-\-remember\fR
+.RS 4
+Save any password given for a YubiKey to avoid having to enter it in again\&.
+.RE
+.PP
+\fB\-r, \-\-reader READER\fR
+.RS 4
+Name to match smartcard reader against (case insensitive)\&.
+.RE
+.SH "COMMANDS"
+.sp
+yubioath supports multiple commands, each with its own options, in addition to the global options:
+.SS "show [OPTIONS] [QUERY]"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+Display one or more one time codes calculated by the YubiKey\&.
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fB\-s1, \-\-slot1 DIGITS\fR
+.RS 4
+Calculate and show a one time code from slot 1, displaying DIGITS number of digits\&.
+.RE
+.PP
+\fB\-s2, \-\-slot2 DIGITS\fR
+.RS 4
+Calculate and show a one time code from slot 2, displaying DIGITS number of digits\&.
+.RE
+.PP
+\fB\-t, \-\-timestamp TIMESTAMP\fR
+.RS 4
+Use the user provided TIMESTAMP instead of the system clock\&.
+.RE
+.PP
+\fB\-h, \-\-help\fR
+.RS 4
+Shows additional help for the sub command\&.
+.RE
+.PP
+\fBQUERY\fR
+.RS 4
+A filter string to match credential names against\&. If given, only credentials containing the QUERY substring will be displayed\&. For HOTP credentials, codes will only be calculated when given a QUERY which uniquely specifices the credential as to avoid unwanted counter incrementation\&.
+.RE
+.SS "put [OPTIONS] KEY"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+Load and store a credential into the YubiKey\&.
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fB\-S, \-\-destination DEST\fR
+.RS 4
+Where DEST is one of:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fB0\fR
+the main applet (default)\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fB1\fR
+the YubiKey standard slot 1\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fB2\fR
+the YubiKey standard slot 2\&.
+.RE
+.RE
+.PP
+\fB\-N, \-\-name NAME\fR
+.RS 4
+The name to give the credential\&. When giving a name with an issuer, the issuer and name should be separated by a colon:
+\fIissuer:name\fR\&. Not applicable to slot\-based credentials\&.
+.RE
+.PP
+\fB\-A, \-\-oath\-type ALGORITHM\fR
+.RS 4
+OATH algorithm to use\&. Should be one of
+\fBtotp\fR
+(default) and
+\fBhotp\fR\&. Not applicable to slot\-based credentials\&.
+.RE
+.PP
+\fB\-D, \-\-digits DIGITS\fR
+.RS 4
+The number of digits to output when generating codes\&. Should be
+\fB6\fR
+(default) or
+\fB8\fR\&. Not applicable to slot\-based credentials\&.
+.RE
+.PP
+\fB\-I IMF, \-\-imf IMF\fR
+.RS 4
+The initial value to store for the counter\&. Only applicable for HOTP credential\&. Not applicable to slot\-based credentials\&.
+.RE
+.PP
+\fB\-T, \-\-touch\fR
+.RS 4
+When set, the slot will require the user to press the button on the YubiKey before calculating a code\&.
+\fBOnly\fR
+applicable to slot\-based credentials\&.
+.RE
+.PP
+\fB\-h, \-\-help\fR
+.RS 4
+Shows additional help for the sub command\&.
+.RE
+.PP
+\fBKEY\fR
+.RS 4
+Either a base32 encoded key to use as the secret for the credential, or an otpauth:// URI containing the parameters of the credential\&. When a URI is given the other options are not needed, but can be used to override parameters in the URI, if needed\&.
+.RE
+.SS "delete NAME"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+Deletes a credential from the main OATH credential storage\&.
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fBNAME\fR
+.RS 4
+A filter string that uniquely identifies the credential to delete\&.
+.RE
+.SS "password SUBCOMMAND [OPTIONS]"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+Manage the access password of the OATH applet\&.
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fBset\fR
+.RS 4
+Sets a new password for the YubiKey\&.
+.RE
+.PP
+\fBunset\fR
+.RS 4
+Unsets the current password, so that the YubiKey does not require a password to be used\&.
+.RE
+.PP
+\fBforget\fR
+.RS 4
+Remove all access keys stored on disk\&.
+.RE
+.PP
+\fB\-p, \-\-password PASSWORD\fR
+.RS 4
+Provide the new password for use with the
+\fBset\fR
+sub command as an argument\&. If not given, the command will prompt the user to enter a new password while masking input\&.
+.RE
+.PP
+\fB\-h, \-\-help\fR
+.RS 4
+Shows additional help for the sub command\&.
+.RE
+.SS "reset [OPTIONS]"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+Factory\-reset the OATH applet, unsetting any access password and erasing
+all stored credentials\&.
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fB\-f, \-\-force\fR
+.RS 4
+Do not prompt for confirmation before resetting\&.
+.RE
+.PP
+\fB\-h, \-\-help\fR
+.RS 4
+Shows additional help for the sub command\&.
+.RE
 .SH "BUGS"
 .sp
 Report bugs in the issue tracker (https://github\&.com/Yubico/yubioath\-desktop/issues)
 .SH "SEE ALSO"
 .sp
-\fByubioath\-cli\fR(1)
+\fByubioath\-gui\fR(1)

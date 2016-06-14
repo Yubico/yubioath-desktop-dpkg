@@ -101,6 +101,8 @@ no_slot_desc = "Please choose a slot to write the credential to"
 overwrite_slot = "Overwrite slot?"
 overwrite_slot_desc_1 = "This will overwrite the credential currently stored " \
     "in slot %d. This action cannot be undone."
+overwrite_entry = "Overwrite entry?"
+overwrite_entry_desc = "An entry with this username already exists.\n\nDo you wish to overwrite it? This action cannot be undone."
 qr_scan = "Scan a QR code"
 qr_scanning = "Scanning for QR code..."
 qr_not_found = "QR code not found"
@@ -120,11 +122,12 @@ tt_kill_scdaemon = "Kills any running scdaemon process when the window is " \
 tt_reader_name = "Changes the default smartcard reader name to look for. " \
     "This can be used to target a specific YubiKey when multiple are used, " \
     "or to target an NFC reader."
-ccid_disabled = '<b>CCID (smart card capabilities) is disabled on the' \
-    'inserted YubiKey.</b><br><br>Without CCID enabled, you will only be able' \
-    'to store 2 credentials.<br><br>' \
+ccid_disabled = '<b>CCID (smart card capabilities) is disabled on the ' \
+    'inserted YubiKey.</b><br><br>Without CCID enabled, you will only be ' \
+    'able to store 2 credentials.<br><br>' \
     '<a href="%s">Learn how to enable CCID</a><br>'
-
+no_space="No space available"
+no_space_desc="There is not enough space to add another credential on your device.\n\nTo create free space to add a new credential, delete those you no longer need."
 
 def _translate(qt):
     values = globals()
