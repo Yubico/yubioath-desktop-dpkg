@@ -21,6 +21,7 @@ Depends: libykpers-1-1 (>= 1.11),
          ${misc:Depends},
          python-pyside.qtgui,
          python-pyside.qtnetwork,
+         python-pkg-resources,
          ${python:Depends}
 Recommends: pcscd
 Description: Graphical interface for displaying OATH codes with a Yubikey
