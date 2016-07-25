@@ -1,6 +1,8 @@
 pyscard
 pycrypto
-PySide
 
-[argcomplete]
-argcomplete
+[cli]
+click
+
+[gui]
+PySide

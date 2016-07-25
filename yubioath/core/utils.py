@@ -24,6 +24,9 @@
 # non-source form of such a combination shall include the source code
 # for the parts of OpenSSL used as well as that of the covered work.
 
+from __future__ import print_function
+
+from yubioath.yubicommon.compat import int2byte, byte2int
 from Crypto.Hash import HMAC, SHA
 from Crypto.Protocol.KDF import PBKDF2
 from Crypto.Random import get_random_bytes
@@ -31,10 +34,12 @@ try:
     from urlparse import urlparse, parse_qs
     from urllib import unquote
 except ImportError:
-    from urllib.parse import unquote
+    from urllib.parse import unquote, urlparse, parse_qs
 import subprocess
 import struct
 import time
+import sys
+import re
 
 __all__ = [
     'hmac_sha1',
@@ -58,7 +63,7 @@ def time_challenge(t=None):
 
 
 def parse_full(resp):
-    offs = ord(resp[-1]) & 0xf
+    offs = byte2int(resp[-1]) & 0xf
     return parse_truncated(resp[offs:offs+4])
 
 
@@ -94,15 +99,15 @@ def derive_key(salt, passphrase):
 
 
 def der_pack(*values):
-    return ''.join([chr(t) + chr(len(v)) + v for t, v in zip(values[0::2],
-                                                             values[1::2])])
+    return b''.join([int2byte(t) + int2byte(len(v)) + v for t, v in zip(
+        values[0::2], values[1::2])])
 
 
 def der_read(der_data, expected_t=None):
-    t = ord(der_data[0])
+    t = byte2int(der_data[0])
     if expected_t is not None and expected_t != t:
         raise ValueError('Wrong tag. Expected: %x, got: %x' % (expected_t, t))
-    l = ord(der_data[1])
+    l = byte2int(der_data[1])
     offs = 2
     if l > 0x80:
         n_bytes = l - 0x80
@@ -119,7 +124,7 @@ def b2len(bs):
     l = 0
     for b in bs:
         l *= 256
-        l += ord(b)
+        l += byte2int(b)
     return l
 
 
@@ -133,7 +138,7 @@ def kill_scdaemon():
         for p in ps:
             if p.Properties_('Name').Value == 'scdaemon.exe':
                 pid = p.Properties_('ProcessID').Value
-                print "Killing", pid
+                print("Killing", pid)
                 handle = OpenProcess(1, False, pid)
                 TerminateProcess(handle, -1)
                 CloseHandle(handle)
@@ -144,30 +149,69 @@ def kill_scdaemon():
             shell=True).strip()
         if pids:
             for pid in pids.split():
-                print "Killing", pid
+                print("Killing", pid)
                 subprocess.call(['kill', '-9', pid])
 
 
-YUBICO_VID = 0x1050
-NON_CCID_NEO_PIDS = [0x0110, 0x0114]
+NON_CCID_YK_PIDS = set([0x0110, 0x0113, 0x0114, 0x0401, 0x0402, 0x0403])
+
 
 def ccid_supported_but_disabled():
     """
     Check whether the first connected YubiKey supports CCID, but has it disabled.
     """
-    try:
-        # PyUSB >= 1.0, this is a workaround for a problem with libusbx
-        # on Windows.
-        import usb.core
-        import usb.legacy
-        devices = [usb.legacy.Device(d) for d in usb.core.find(
-            find_all=True, idVendor=YUBICO_VID)]
-    except ImportError:
-        # Using PyUsb < 1.0.
-        import usb
-        devices = [d for bus in usb.busses() for d in bus.devices]
-    for device in devices:
-        if device.idVendor == YUBICO_VID:
-            if device.idProduct in NON_CCID_NEO_PIDS:
-                return True
-    return False
+
+    if sys.platform in ['win32', 'cygwin']:
+        pids = _get_pids_win()
+    elif sys.platform == 'darwin':
+        pids = _get_pids_osx()
+    else:
+        pids = _get_pids_linux()
+
+    return bool(NON_CCID_YK_PIDS.intersection(pids))
+
+
+def _get_pids_linux():
+    pid_pattern = re.compile(r' 1050:([0-9a-f]{4}) ')
+    pids = []
+    for line in subprocess.check_output('lsusb').splitlines():
+        match = pid_pattern.search(line.decode('ascii'))
+        if match:
+            pids.append(int(match.group(1), 16))
+    return pids
+
+
+def _get_pids_osx():
+    pids = []
+    vid_ok = False
+    pid = None
+    output = subprocess.check_output(['system_profiler', 'SPUSBDataType'])
+    for line in output.splitlines():
+        line = line.decode().strip()
+        if line.endswith(':'):  # New entry
+            if vid_ok and pid is not None:
+                pids.append(pid)
+            vid_ok = False
+            pid = None
+        if line.startswith('Vendor ID: '):
+            vid_ok = line.endswith(' 0x1050')
+        elif line.startswith('Product ID:'):
+            pid = int(line.rsplit(' ', 1)[1], 16)
+
+    return pids
+
+
+def _get_pids_win():
+    pid_pattern = re.compile(r'PID_([0-9A-F]{4})')
+    pids = []
+    startupinfo = subprocess.STARTUPINFO()
+    startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+    output = subprocess.check_output(['wmic', 'path',
+                                      'Win32_USBControllerDevice', 'get', '*'],
+                                     startupinfo=startupinfo)
+    for line in output.splitlines():
+        if 'VID_1050' in line:
+            match = pid_pattern.search(line.decode('ascii'))
+            if match:
+                pids.append(int(match.group(1), 16))
+    return pids

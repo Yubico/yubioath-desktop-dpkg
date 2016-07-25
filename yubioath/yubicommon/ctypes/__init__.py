@@ -27,4 +27,44 @@
 
 from .libloader import load_library
 
-__all__ = ['load_library']
+__all__ = ['load_library', 'use_library', 'CLibrary']
+
+
+def use_library(libname, version=None):
+    lib = load_library(libname, version)
+
+    def define(func_name, argtypes, restype=None):
+        try:
+            f = getattr(lib, func_name)
+            f.argtypes = argtypes
+            f.restype = restype
+        except AttributeError:
+            print("Undefined symbol: %s" % func_name)
+
+            def error(*args, **kwargs):
+                raise Exception("Undefined symbol: %s" % func_name)
+            f = error
+        return f
+    return define
+
+
+class CLibrary(object):
+    """
+    Base class for extending to create python wrappers for c libraries.
+
+    Example:
+        class Foo(CLibrary):
+            foo_func = [c_bool, c_char_p], int
+
+        foo = Foo('libfoo')
+
+        assert foo.foo_func(True, 'Hello!') == 7
+    """
+    def __init__(self, libname, version=None):
+        self._lib = use_library(libname, version)
+
+    def __getattribute__(self, name):
+        val = object.__getattribute__(self, name)
+        if isinstance(val, tuple) and len(val) == 2:
+            return self._lib(name, *val)
+        return val

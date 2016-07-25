@@ -30,8 +30,8 @@ from PySide import QtGui, QtCore
 from .worker import Worker
 import os
 import sys
-import time
 import importlib
+from .. import compat
 
 __all__ = ['Application', 'Dialog', 'MutexLocker']
 
@@ -43,8 +43,8 @@ class Dialog(QtGui.QDialog):
 
     def __init__(self, *args, **kwargs):
         super(Dialog, self).__init__(*args, **kwargs)
-        self.setWindowFlags(self.windowFlags()
-                            ^ QtCore.Qt.WindowContextHelpButtonHint)
+        self.setWindowFlags(self.windowFlags() ^
+                            QtCore.Qt.WindowContextHelpButtonHint)
         self._headers = _Headers()
 
     @property
@@ -73,8 +73,14 @@ class _MainWindow(QtGui.QMainWindow):
 
     def __init__(self):
         super(_MainWindow, self).__init__()
-
         self._widget = None
+
+    def hide(self):
+        if sys.platform == 'darwin':
+            from .osx import app_services
+            app_services.osx_hide()
+        else:
+            super(_MainWindow, self).hide()
 
     def customEvent(self, event):
         event.callback()
@@ -84,16 +90,22 @@ class _MainWindow(QtGui.QMainWindow):
 class Application(QtGui.QApplication):
     _quit = False
 
-    def __init__(self, m=None):
+    def __init__(self, m=None, version=None):
         super(Application, self).__init__(sys.argv)
+        self._determine_basedir()
+        self._read_package_version(version)
 
         self.window = _MainWindow()
 
-        if m:
-            m._translate(self)
+        if m:  # Run all strings through Qt translation
+            for key in dir(m):
+                if (isinstance(key, compat.string_types) and
+                        not key.startswith('_')):
+                    setattr(m, key, self.tr(getattr(m, key)))
 
         self.worker = Worker(self.window, m)
 
+    def _determine_basedir(self):
         if getattr(sys, 'frozen', False):
             # we are running in a PyInstaller bundle
             self.basedir = sys._MEIPASS
@@ -103,6 +115,22 @@ class Application(QtGui.QApplication):
             top_module = importlib.import_module(top_module_str)
             self.basedir = os.path.dirname(top_module.__file__)
 
+    def _read_package_version(self, version):
+        if version is None:
+            return
+
+        pversion_fn = os.path.join(self.basedir, 'package_version.txt')
+        try:
+            with open(pversion_fn, 'r') as f:
+                pversion = int(f.read().strip())
+        except:
+            pversion = 0
+
+        if pversion > 0:
+            version += '.%d' % pversion
+
+        self.version = version
+
     def ensure_singleton(self, name=None):
         if not name:
             name = self.applicationName()
@@ -110,9 +138,7 @@ class Application(QtGui.QApplication):
         self._l_socket = QtNetwork.QLocalSocket()
         self._l_socket.connectToServer(name, QtCore.QIODevice.WriteOnly)
         if self._l_socket.waitForConnected():
-            self.worker.thread().quit()
-            self.deleteLater()
-            time.sleep(0.01)  # Without this the process sometimes stalls.
+            self._stop()
             sys.exit(0)
         else:
             self._l_server = QtNetwork.QLocalServer()
@@ -129,14 +155,20 @@ class Application(QtGui.QApplication):
         super(Application, self).quit()
         self._quit = True
 
+    def _stop(self):
+        worker_thread = self.worker.thread()
+        worker_thread.quit()
+        worker_thread.wait()
+        self.deleteLater()
+        sys.stdout.flush()
+        sys.stderr.flush()
+
     def exec_(self):
         if not self._quit:
             status = super(Application, self).exec_()
         else:
             status = 0
-        self.worker.thread().quit()
-        self.deleteLater()
-        time.sleep(0.01)  # Without this the process sometimes stalls.
+        self._stop()
         return status
 
 

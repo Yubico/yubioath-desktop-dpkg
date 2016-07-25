@@ -24,13 +24,18 @@
 # non-source form of such a combination shall include the source code
 # for the parts of OpenSSL used as well as that of the covered work.
 
-from .exc import CardError, DeviceLockedError
+from __future__ import print_function, division
+
+from .exc import CardError, DeviceLockedError, NoSpaceError
 from .utils import (der_read, der_pack, hmac_sha1, derive_key, get_random_bytes,
                     time_challenge, parse_truncated, format_code)
-from hashlib import sha1
+from yubioath.yubicommon.compat import int2byte, byte2int
+import hashlib
 import struct
+import os
 
-YKOATH_AID = 'a000000527210101'.decode('hex')
+YKOATH_AID = b'\xa0\x00\x00\x05\x27\x21\x01\x01'
+YKOATH_NO_SPACE = 0x6a84
 
 INS_PUT = 0x01
 INS_DELETE = 0x02
@@ -68,15 +73,46 @@ ALG_SHA256 = 0x02
 PROP_ALWAYS_INC = 0x01
 PROP_REQUIRE_TOUCH = 0x02
 
+SCHEME_STANDARD = 0x00
+SCHEME_STEAM = 0x01
+
+STEAM_CHAR_TABLE = "23456789BCDFGHJKMNPQRTVWXY"
+
+
+def format_code_steam(int_data, digits):
+    chars = []
+    for i in range(5):
+        chars.append(STEAM_CHAR_TABLE[int_data % len(STEAM_CHAR_TABLE)])
+        int_data //= len(STEAM_CHAR_TABLE)
+    return ''.join(chars)
+
 
 def ensure_unlocked(ykoath):
     if ykoath.locked:
         raise DeviceLockedError()
 
 
-def format_truncated(t_resp):
-    digits, data = ord(t_resp[0]), t_resp[1:]
-    return format_code(parse_truncated(data), digits)
+def format_truncated(t_resp, scheme=SCHEME_STANDARD):
+    digits, data = byte2int(t_resp[0]), t_resp[1:]
+    int_data = parse_truncated(data)
+    if scheme == SCHEME_STANDARD:
+        return format_code(int_data, digits)
+    elif scheme == SCHEME_STEAM:
+        return format_code_steam(int_data, digits)
+
+
+def hmac_shorten_key(key, algo):
+    if algo == ALG_SHA1:
+        h = hashlib.sha1()
+    elif algo == ALG_SHA256:
+        h = hashlib.sha256()
+    else:
+        raise ValueError('Unsupported algorithm!')
+
+    if len(key) > h.block_size:
+        key = h.update(key).digest()
+
+    return key
 
 
 class Credential(object):
@@ -121,7 +157,7 @@ class _426Device(object):
             self._delegate.send_apdu(0, 0, 0, 0, '')
             self._long_resp = False
         resp, status = self._delegate.send_apdu(cl, ins, p1, p2, data)
-        self._long_resp = len(resp) > 52 # 52 bytes resp, 2 bytes status...
+        self._long_resp = len(resp) > 52  # 52 bytes resp, 2 bytes status...
         return resp, status
 
 
@@ -145,6 +181,10 @@ class YubiOathCcid(object):
             more, status = self._device.send_apdu(
                 0, INS_SEND_REMAINING, 0, 0, '')
             resp += more
+
+        if status == YKOATH_NO_SPACE:
+            raise NoSpaceError()
+
         if expected != status:
             raise CardError(status)
         return resp
@@ -164,24 +204,27 @@ class YubiOathCcid(object):
 
     @property
     def version(self):
-        return tuple(map(ord, self._version))
+        return tuple(byte2int(d) for d in self._version)
 
     @property
     def locked(self):
         return self._challenge is not None
 
     def delete(self, name):
-        data = der_pack(TAG_NAME, name)
+        data = der_pack(TAG_NAME, name.encode('utf8'))
         self._send(INS_DELETE, data)
 
     def calculate(self, name, oath_type, timestamp=None):
-        if oath_type == TYPE_TOTP:
-            challenge = time_challenge(timestamp)
-        else:
-            challenge = ''
-        data = der_pack(TAG_NAME, name, TAG_CHALLENGE, challenge)
-        resp = self._send(INS_CALCULATE, data, p2=1)
-        return format_truncated(der_read(resp, TAG_T_RESPONSE)[0])
+        challenge = time_challenge(timestamp) if oath_type == TYPE_TOTP else ''
+        data = der_pack(TAG_NAME, name.encode('utf8'), TAG_CHALLENGE, challenge)
+        resp = self._send(INS_CALCULATE, data)
+        # Manual dynamic truncation required for Steam entries
+        resp = der_read(resp, TAG_RESPONSE)[0]
+        digits, resp = resp[0:1], resp[1:]
+        offset = byte2int(resp[-1]) & 0xF
+        resp = resp[offset:offset + 4]
+        scheme = SCHEME_STEAM if name.startswith('Steam:') else SCHEME_STANDARD
+        return format_truncated(digits + resp, scheme)
 
     def calculate_key(self, passphrase):
         return derive_key(self.id, passphrase)
@@ -204,13 +247,13 @@ class YubiOathCcid(object):
     def set_key(self, key=None):
         ensure_unlocked(self)
         if key:
-            keydata = chr(TYPE_TOTP | ALG_SHA1) + key
+            keydata = int2byte(TYPE_TOTP | ALG_SHA1) + key
             challenge = get_random_bytes(8)
             response = hmac_sha1(key, challenge)
             data = der_pack(TAG_KEY, keydata, TAG_CHALLENGE, challenge,
                             TAG_RESPONSE, response)
         else:
-            data = der_pack(TAG_KEY, '')
+            data = der_pack(TAG_KEY, b'')
         self._send(INS_SET_CODE, data)
 
     def reset(self):
@@ -223,8 +266,12 @@ class YubiOathCcid(object):
         items = []
         while resp:
             data, resp = der_read(resp, TAG_NAME_LIST)
-            items.append(Credential(self, TYPE_MASK & ord(data[0]), data[1:],
-                                    None))
+            items.append(Credential(
+                self,
+                TYPE_MASK & byte2int(data[0]),
+                data[1:],
+                None
+            ))
         return items
 
     def calculate_all(self, timestamp=None):
@@ -234,11 +281,19 @@ class YubiOathCcid(object):
         results = []
         while resp:
             name, resp = der_read(resp, TAG_NAME)
+            name = name.decode('utf8')
             tag, value, resp = der_read(resp)
-            if tag == TAG_T_RESPONSE:
+            if name.startswith('_hidden:') and 'YKOATH_SHOW_HIDDEN' not in os.environ:
+                pass  # Ignore hidden credentials.
+            elif tag == TAG_T_RESPONSE:
+                # Steam credentials need to be recalculated
+                # to skip full truncation done by Yubikey 4.
+                code = self.calculate(name, TYPE_TOTP) \
+                        if name.startswith('Steam:') \
+                        else format_truncated(value, SCHEME_STANDARD)
                 results.append((
                     Credential(self, TYPE_TOTP, name, False),
-                    format_truncated(value)
+                    code
                 ))
             elif tag == TAG_TOUCH_RESPONSE:
                 results.append((
@@ -248,19 +303,16 @@ class YubiOathCcid(object):
             elif tag == TAG_NO_RESPONSE:
                 results.append((Credential(self, TYPE_HOTP, name), None))
             else:
-                print "Unsupported tag: %02x" % tag
-        results.sort(lambda a, b: cmp(a[0].name.lower(), b[0].name.lower()))
+                print("Unsupported tag: %02x" % tag)
+        results.sort(key=lambda a: a[0].name.lower())
         return results
 
     def put(self, name, key, oath_type=TYPE_TOTP, algo=ALG_SHA1, digits=6,
             imf=0, always_increasing=False, require_touch=False):
         ensure_unlocked(self)
-        if isinstance(name, unicode):
-            name = name.encode('utf8')
-        if len(key) > 64:  # Keys longer than 64 bytes are hashed, as per HMAC.
-            key = sha1(key).digest()
-        keydata = chr(oath_type | algo) + chr(digits) + key
-        data = der_pack(TAG_NAME, name, TAG_KEY, keydata)
+        key = hmac_shorten_key(key, algo)
+        keydata = int2byte(oath_type | algo) + int2byte(digits) + key
+        data = der_pack(TAG_NAME, name.encode('utf8'), TAG_KEY, keydata)
         properties = 0
         if always_increasing:
             properties |= PROP_ALWAYS_INC
@@ -269,7 +321,7 @@ class YubiOathCcid(object):
                 raise Exception("Touch-required not supported on this key")
             properties |= PROP_REQUIRE_TOUCH
         if properties:
-            data += chr(TAG_PROPERTY) + chr(properties)
+            data += int2byte(TAG_PROPERTY) + int2byte(properties)
         if imf > 0:
             data += der_pack(TAG_IMF, struct.pack('>I', imf))
         self._send(INS_PUT, data)

@@ -4,8 +4,10 @@ MANIFEST.in
 NEWS
 README
 setup.py
-man/yubioath-cli.1
-man/yubioath-cli.1.adoc
+doc/Building_Binaries.adoc
+doc/osx-compiling.adoc
+man/yubioath-gui.1
+man/yubioath-gui.1.adoc
 man/yubioath.1
 man/yubioath.1.adoc
 qt_resources/calc.png
@@ -15,7 +17,6 @@ qt_resources/yubioath.png
 resources/installer_bg.png
 resources/linux-patch-ccid
 resources/osx-installer.pkgproj
-resources/osx-patch-ccid
 resources/win-installer.nsi
 resources/yubioath-desktop.icns
 resources/yubioath-desktop.ico
@@ -56,10 +57,12 @@ yubioath/gui/view/set_password.py
 yubioath/gui/view/settings.py
 yubioath/gui/view/systray.py
 yubioath/yubicommon/__init__.py
+yubioath/yubicommon/compat.py
 yubioath/yubicommon/ctypes/__init__.py
 yubioath/yubicommon/ctypes/libloader.py
 yubioath/yubicommon/qt/__init__.py
 yubioath/yubicommon/qt/classes.py
+yubioath/yubicommon/qt/osx.py
 yubioath/yubicommon/qt/settings.py
 yubioath/yubicommon/qt/utils.py
 yubioath/yubicommon/qt/worker.py

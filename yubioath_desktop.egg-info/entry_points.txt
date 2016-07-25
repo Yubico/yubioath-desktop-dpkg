@@ -1,6 +1,6 @@
 [console_scripts]
-yubioath-cli = yubioath.cli.__main__:main
+yubioath = yubioath.cli.__main__:main
 
 [gui_scripts]
-yubioath = yubioath.gui.__main__:main
+yubioath-gui = yubioath.gui.__main__:main
 

@@ -1,3 +1,260 @@
+2016-06-13  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, yubioath/__init__.py: Update NEWS and version for release.
+
+2016-06-13  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon: Update yubicommon.
+
+2016-06-13  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/__main__.py: Fix "yubioath gui" command when run fron
+	PyInstaller.
+
+2016-06-13  Dain Nilsson <dain@yubico.com>
+
+	* resources/win-installer.nsi: Fix command names in Windows
+	installer.
+
+2016-06-09  Dain Nilsson <dain@yubico.com>
+
+	* man/yubioath-gui.1.adoc, man/yubioath.1.adoc: Fix headers for man
+	pages.
+
+2016-06-09  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/__main__.py: Minor CLI fixes.
+
+2016-06-09  Dain Nilsson <dain@yubico.com>
+
+	* man/yubioath-cli.1.adoc, man/yubioath-gui.1.adoc,
+	man/yubioath.1.adoc: Update man pages.
+
+2016-06-09  Dag Heyman <dag@yubico.com>
+
+	* NEWS, yubioath/__init__.py: Prepare for release 3.0.0
+
+2016-06-09  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, README, doc/Building_Binaries.adoc: Updated README, moved
+	binary build instructions.
+
+2016-06-09  Dag Heyman <dag@yubico.com>
+
+	* resources/linux-patch-ccid: Try systemd syntax if pcscd restart
+	fails Closes #75
+
+2016-06-09  Dag Heyman <dag@yubico.com>
+
+	* yubioath/core/standard.py: Less general variable name for showing
+	hidden credentials
+
+2016-06-09  Dag Heyman <dag@yubico.com>
+
+	* yubioath/cli/__main__.py, yubioath/gui/messages.py: Better
+	language in no space left-message.
+
+2016-06-09  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/legacy_otp.py: Fix indentation issue.
+
+2016-06-09  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon, yubioath/core/legacy_otp.py: Update yubicommon
+	and refactor ctypes code.
+
+2016-06-08  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon, yubioath/core/legacy_otp.py: Update yubicommon,
+	switch to use_library.
+
+2016-06-08  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon: Update yubicommon.
+
+2016-06-08  Dain Nilsson <dain@yubico.com>
+
+	* setup.py: Don't require PySide without gui.
+
+2016-06-08  Dag Heyman <dag@yubico.com>
+
+	* yubioath/gui/view/systray.py: Focus the window when activating
+	from systray
+
+2016-06-08  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/standard.py: Hide _hidden credentials.
+
+2016-06-08  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/__main__.py, yubioath/gui/view/codes.py: Revert "Hide
+	credentials with the issuer "_hidden:"." This reverts commit cdfc77e0f35b13fde5a123591d14393d29e67a7f.
+
+2016-06-08  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/standard.py: Formatting.
+
+2016-06-08  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/__main__.py, yubioath/gui/view/codes.py: Hide
+	credentials with the issuer "_hidden:".
+
+2016-06-08  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/__main__.py: Launch GUI using "yubioath gui".
+
+2016-06-08  Dain Nilsson <dainzor@gmail.com>
+
+	* : Merge pull request #84 from Yubico/no-space Handle case when no space left on YubiKey
+
+2016-06-08  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/__main__.py: Default to "show" when no subcommand is
+	given.
+
+2016-06-07  Dain Nilsson <dain@yubico.com>
+
+	* setup.py, yubioath/cli/__main__.py: Use click instead of argparse.
+
+2016-06-07  Dag Heyman <dag@yubico.com>
+
+	* doc/osx-compiling.adoc: Different order in the Swig installation.
+
+2016-06-07  Dag Heyman <dag@yubico.com>
+
+	* doc/osx-compiling.adoc, doc/qt4-8-6-on-osx.patch: Add docs for
+	building compatible binaries on OS X To build backwards compatible binaries on OS X, everything needs to
+	be compiled with a CFLAGS variable set.  Add documentation for this
+	and a .patch file needed for building Qt 4.
+
+2016-06-03  Dag Heyman <dag@yubico.com>
+
+	* NEWS: Language adjustments in the release notes
+
+2016-06-03  Dag Heyman <dag@yubico.com>
+
+	* : Merge pull request #83 from Yubico/steam-yubikey4-calculation Recalculate codes for Steam credentials
+
+2016-06-03  Dag Heyman <dag@yubico.com>
+
+	* NEWS: Update NEWS for upcoming release
+
+2016-06-03  Dag Heyman <dag@yubico.com>
+
+	* .gitignore: Add lib folder to .gitignore
+
+2016-06-02  Dag Heyman <dag@yubico.com>
+
+	* vendor/yubicommon: Update Yubicommon
+
+2016-05-31  Dag Heyman <dag.heyman@gmail.com>
+
+	* : Merge pull request #82 from Yubico/scrolling-as-needed Vertical scrolling when needed
+
+2016-05-31  Dain Nilsson <dainzor@gmail.com>
+
+	* : Merge pull request #81 from Yubico/split-issuer UX enhancements
+
+2016-05-30  Dag Heyman <dag@yubico.com>
+
+	* yubioath/gui/view/codes.py: Split up issuer and name in the GUI Show issuer and name of entry in two different labels in the GUI.
+	Hide issuer label if no issuer exists in the entry.  Closes #73.
+
+2016-05-30  Dag Heyman <dag@yubico.com>
+
+	* yubioath/core/utils.py: Avoid TypeError when checking pids Add string decoding when checking for pids on OS X.  A TypeError
+	occured when inserting the Yubikey and the program was running under
+	Python 3.
+
+2016-05-27  Dag Heyman <dag@yubico.com>
+
+	* yubioath/gui/view/add_cred.py: Use deafult Qt dialog in overwrite
+	confirmation When asking for a overwrite-confirmation, instead of creating a new
+	custom QMessageBox, use the default static method for question
+	dialogs as used in other parts of the applicaation.
+
+2016-05-26  Dain Nilsson <dainzor@gmail.com>
+
+	* : Merge pull request #80 from Yubico/confirm-overwriting Add confirmation when overwriting entries
+
+2016-05-24  Dag Heyman <dag@yubico.com>
+
+	* yubioath/core/standard.py: Send the actual algorithm when
+	shortening the HMAC-SHA256 keys.  It was not possible to add new
+	credentials.
+
+2016-05-24  Dag Heyman <dag@yubico.com>
+
+	* vendor/yubicommon: Update Yubicommon.
+
+2016-05-10  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/standard.py: Correclty shorten HMAC-SHA256 keys that
+	are too long.
+
+2016-03-31  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/qrparse.py: Remove unneeded cast to float.
+
+2016-03-31  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/qrdecode.py, yubioath/gui/qrparse.py: Ensure
+	consistent division.
+
+2016-03-31  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/legacy_otp.py: Python 3 fixes.
+
+2016-03-31  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/qrdecode.py, yubioath/gui/qrparse.py: Fixed QR
+	parsing.
+
+2016-03-31  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/__main__.py, yubioath/cli/keystore.py,
+	yubioath/core/ccid.py, yubioath/core/legacy_ccid.py,
+	yubioath/core/legacy_otp.py, yubioath/core/standard.py,
+	yubioath/core/utils.py, yubioath/gui/controller.py: Python 3 fixes.
+
+2016-03-31  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/standard.py: Calculate Steam Guard codes for
+	credentials with Steam: prefix.
+
+2016-03-31  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/utils.py: Fix windows regex for PID.
+
+2016-03-31  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/controller.py: Suppress unused variable warning.
+
+2016-03-31  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/cli/__main__.py, yubioath/core/controller.py,
+	yubioath/core/legacy_otp.py, yubioath/gui/controller.py: Implement
+	deletion of slot based credentials.
+
+2016-03-31  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/core/utils.py, yubioath/gui/messages.py: Made CCID
+	disabled detection not rely on pyusb.
+
+2016-03-31  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon: Updated yubicommon.
+
+2015-12-02  Dain Nilsson <dain@yubico.com>
+
+	* vendor/yubicommon, yubioath/gui/__main__.py: Allow package
+	version.
+
+2015-11-20  Dain Nilsson <dain@yubico.com>
+
+	* resources/osx-installer.pkgproj, resources/osx-patch-ccid: Remove
+	osx-patch-ccid (use ifd-yubico instead).
+
 2015-11-20  Dain Nilsson <dain@yubico.com>
 
 	* NEWS, yubioath/__init__.py: Prepare for release.

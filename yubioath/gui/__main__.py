@@ -36,6 +36,7 @@ try:
 except ImportError:
     ykpers_version = 'None'
 from ..core.utils import kill_scdaemon
+from ..core.exc import NoSpaceError
 from . import messages as m
 from .controller import GuiController
 from .ccid import CardStatus
@@ -108,7 +109,7 @@ class MainWidget(QtGui.QStackedWidget):
 class YubiOathApplication(qt.Application):
 
     def __init__(self, args):
-        super(YubiOathApplication, self).__init__(m)
+        super(YubiOathApplication, self).__init__(m, version)
 
         QtCore.QCoreApplication.setOrganizationName(m.organization)
         QtCore.QCoreApplication.setOrganizationDomain(m.domain)
@@ -134,7 +135,7 @@ class YubiOathApplication(qt.Application):
         self._systray.setVisible(show)
 
     def _init_window(self, show=True):
-        self.window.setWindowTitle(m.win_title_1 % version)
+        self.window.setWindowTitle(m.win_title_1 % self.version)
         self.window.setWindowIcon(QtGui.QIcon(':/yubioath.png'))
         self.window.resize(self._settings.get('size', QtCore.QSize(320, 340)))
 
@@ -205,22 +206,24 @@ class YubiOathApplication(qt.Application):
 
     def _about(self):
         QtGui.QMessageBox.about(self.window, m.about_1 % m.app_name,
-                                ABOUT_TEXT % (version, self._libversions()))
+                                ABOUT_TEXT % (self.version, self._libversions()))
 
     def _add_credential(self):
         c = self._controller.get_capabilities()
         if c.ccid:
-            dialog = AddCredDialog(self.worker, c.version, parent=self.window)
+            dialog = AddCredDialog(self.worker, c.version, self._controller.get_entry_names(), parent=self.window)
             if dialog.exec_():
                 if not self._controller._reader:
                     QtGui.QMessageBox.critical(
                         self.window, m.key_removed, m.key_removed_desc)
                 else:
-                    self._controller.add_cred(
+                    try:
+                        self._controller.add_cred(
                         dialog.name, dialog.key, oath_type=dialog.oath_type,
                         digits=dialog.n_digits,
-                        require_touch=dialog.require_touch
-                    )
+                        require_touch=dialog.require_touch)
+                    except NoSpaceError:
+                        QtGui.QMessageBox.critical(self.window, m.no_space, m.no_space_desc)
         elif c.otp:
             dialog = AddCredLegacyDialog(self.worker, c.otp, parent=self.window)
             if dialog.exec_():
