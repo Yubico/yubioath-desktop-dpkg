@@ -1,8 +1,17 @@
-yubioath-desktop (3.0.1-1) UNRELEASED; urgency=medium
+yubioath-desktop (3.0.1-1) unstable; urgency=medium
 
-  * Update to new version
+  [ Dag Heyman ]
+  * New upstream version.
+  * Add Dag to Uploaders:.
+  * Use https URLs in Vcs-Git.
+  * Update Standards-Version from 3.9.6 to 3.9.8.
+  * Add dependency on python-pkg-resources, python-click and pcscd.
+  * Drop recommends on pcscd.
+  * Fix watch file.
+  * Add patch fix-icon.patch.
+  * Drop patch fix-pyside-requirement.diff.
 
- -- Dag Heyman <dag@yubico.com>  Tue, 14 Jun 2016 14:09:39 +0200
+ -- Simon Josefsson <simon@josefsson.org>  Mon, 25 Jul 2016 09:46:22 +0200
 
 yubioath-desktop (2.3.0-1) unstable; urgency=low
 
