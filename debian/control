@@ -22,8 +22,10 @@ Depends: libykpers-1-1 (>= 1.11),
          ${misc:Depends},
          python-pyside.qtgui,
          python-pyside.qtnetwork,
+         python-pkg-resources,
+         python-click,
+         pcscd,
          ${python:Depends}
-Recommends: pcscd
 Description: Graphical interface for displaying OATH codes with a Yubikey
  The Yubico Authenticator is a graphical desktop tool for generating Open
  AuTHentication (OATH) event-based HOTP and time-based TOTP one-time password

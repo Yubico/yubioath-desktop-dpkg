@@ -5,6 +5,8 @@ yubioath-desktop (3.0.1-1) unstable; urgency=medium
   * Add Dag to Uploaders:.
   * Use https URLs in Vcs-Git.
   * Update Standards-Version from 3.9.6 to 3.9.8.
+  * Add dependency on python-pkg-resources, python-click and pcscd.
+  * Drop recommends on pcscd.
   * Fix watch file.
   * Add patch fix-icon.patch.
   * Drop patch fix-pyside-requirement.diff.
