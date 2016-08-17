@@ -1,3 +1,11 @@
+yubioath-desktop (3.0.1-2) unstable; urgency=medium
+
+  [ Dag Heyman ]
+  * Add dependency on python-pkg-resources, python-click and pcscd.
+  * Drop recommends on pcscd.
+
+ -- Simon Josefsson <simon@josefsson.org>  Wed, 17 Aug 2016 14:43:08 +0200
+
 yubioath-desktop (3.0.1-1) unstable; urgency=medium
 
   [ Dag Heyman ]
