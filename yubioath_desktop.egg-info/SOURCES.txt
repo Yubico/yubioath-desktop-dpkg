@@ -6,10 +6,10 @@ README
 setup.py
 doc/Building_Binaries.adoc
 doc/osx-compiling.adoc
-man/yubioath-gui.1
 man/yubioath-gui.1.adoc
-man/yubioath.1
+man/yubioath-gui.1.xml
 man/yubioath.1.adoc
+man/yubioath.1.xml
 qt_resources/calc.png
 qt_resources/copy.png
 qt_resources/qr.png

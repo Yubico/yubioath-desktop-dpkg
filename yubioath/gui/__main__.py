@@ -166,6 +166,12 @@ class YubiOathApplication(qt.Application):
         quit_action.triggered.connect(self._systray.quit)
         file_menu.addAction(quit_action)
 
+        if sys.platform == "darwin":
+            close_action = QtGui.QAction(m.action_close, file_menu)
+            close_action.setShortcut(QtGui.QKeySequence.Close)
+            close_action.triggered.connect(self.window.hide)
+            file_menu.addAction(close_action)
+
         help_menu = self.window.menuBar().addMenu(m.menu_help)
         about_action = QtGui.QAction(m.action_about, help_menu)
         about_action.triggered.connect(self._about)
@@ -205,13 +211,19 @@ class YubiOathApplication(qt.Application):
         return 'ykpers: %s' % ykpers_version
 
     def _about(self):
-        QtGui.QMessageBox.about(self.window, m.about_1 % m.app_name,
-                                ABOUT_TEXT % (self.version, self._libversions()))
+        QtGui.QMessageBox.about(
+            self.window,
+            m.about_1 % m.app_name,
+            ABOUT_TEXT % (self.version, self._libversions()))
 
     def _add_credential(self):
         c = self._controller.get_capabilities()
         if c.ccid:
-            dialog = AddCredDialog(self.worker, c.version, self._controller.get_entry_names(), parent=self.window)
+            dialog = AddCredDialog(
+                self.worker,
+                c.version,
+                self._controller.get_entry_names(),
+                parent=self.window)
             if dialog.exec_():
                 if not self._controller._reader:
                     QtGui.QMessageBox.critical(
@@ -219,13 +231,18 @@ class YubiOathApplication(qt.Application):
                 else:
                     try:
                         self._controller.add_cred(
-                        dialog.name, dialog.key, oath_type=dialog.oath_type,
-                        digits=dialog.n_digits,
-                        require_touch=dialog.require_touch)
+                            dialog.name,
+                            dialog.key,
+                            oath_type=dialog.oath_type,
+                            digits=dialog.n_digits,
+                            algo=dialog.algorithm,
+                            require_touch=dialog.require_touch)
                     except NoSpaceError:
-                        QtGui.QMessageBox.critical(self.window, m.no_space, m.no_space_desc)
+                        QtGui.QMessageBox.critical(
+                            self.window, m.no_space, m.no_space_desc)
         elif c.otp:
-            dialog = AddCredLegacyDialog(self.worker, c.otp, parent=self.window)
+            dialog = AddCredLegacyDialog(
+                self.worker, c.otp, parent=self.window)
             if dialog.exec_():
                 self._controller.add_cred_legacy(dialog.slot, dialog.key,
                                                  dialog.touch)

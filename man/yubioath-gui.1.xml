@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
+<refentry lang="en">
+<refentryinfo>
+    <title>yubioath\-gui(1)</title>
+</refentryinfo>
+<refmeta>
+<refentrytitle>yubioath\-gui</refentrytitle>
+<manvolnum>1</manvolnum>
+<refmiscinfo class="source">yubioath-gui</refmiscinfo>
+<refmiscinfo class="manual">Yubico Authenticator Manual</refmiscinfo>
+</refmeta>
+<refnamediv>
+    <refname>yubioath-gui</refname>
+    <refpurpose>Yubico Authenticator graphical interface</refpurpose>
+</refnamediv>
+<refsynopsisdiv id="_synopsis">
+<simpara><emphasis role="strong">yubioath-gui</emphasis></simpara>
+</refsynopsisdiv>
+<refsect1 id="_description">
+<title>Description</title>
+<simpara>The Yubico Authenticator is a graphical desktop tool for generating Open
+AuTHentication (OATH) event-based HOTP and time-based TOTP one-time password
+codes, with the help of a YubiKey that protects the shared secrets.</simpara>
+</refsect1>
+<refsect1 id="_bugs">
+<title>Bugs</title>
+<simpara>Report bugs in the issue tracker (<ulink url="https://github.com/Yubico/yubioath-desktop/issues">https://github.com/Yubico/yubioath-desktop/issues</ulink>)</simpara>
+</refsect1>
+<refsect1 id="_see_also">
+<title>See also</title>
+<simpara><emphasis role="strong">yubioath</emphasis>(1)</simpara>
+</refsect1>
+</refentry>

@@ -151,6 +151,9 @@ class DarwinLibraryLoader(LibraryLoader):
         if hasattr(sys, 'frozen'):
             dirs.append(sys._MEIPASS)
 
+        dirs.append(
+            os.path.join(os.path.dirname(sys.executable), '../Frameworks'))
+
         dirs.extend(dyld_fallback_library_path)
 
         return dirs
@@ -214,7 +217,6 @@ class PosixLibraryLoader(LibraryLoader):
 
         cache = {}
         lib_re = re.compile(r'lib(.*)\.s[ol]')
-        ext_re = re.compile(r'\.s[ol]$')
         for dir in directories:
             try:
                 for path in glob.glob("%s/*.s[ol]*" % dir):
@@ -312,17 +314,20 @@ class WindowsLibraryLoader(LibraryLoader):
 # If your value of sys.platform does not appear in this dict, please contact
 # the Ctypesgen maintainers.
 
+
 loaderclass = {
     "darwin":   DarwinLibraryLoader,
     "cygwin":   WindowsLibraryLoader,
     "win32":    WindowsLibraryLoader
 }
 
+
 loader = loaderclass.get(sys.platform, PosixLibraryLoader)()
 
 
 def add_library_search_dirs(other_dirs):
     loader.other_dirs = other_dirs
+
 
 load_library = loader.load_library
 

@@ -45,6 +45,7 @@ class _DefaultMessages(object):
         else:
             return getattr(self._defaults, method_name)
 
+
 def default_messages(_m, name='m'):
     def inner(fn):
         @wraps(fn)
@@ -84,12 +85,27 @@ def get_active_window():
 
 
 def connect_once(signal, slot):
-    def wrapped(*args, **kwargs):
-        signal.disconnect(wrapped)
-        slot(*args, **kwargs)
-    signal.connect(wrapped)
+    _SignalConnector(signal, slot)
 
 
 def is_minimized(window):
     """Returns True iff the window is minimized or has been sent to the tray"""
     return not window.isVisible() or window.isMinimized()
+
+
+class _SignalConnector(QtCore.QObject):
+
+        _instances = set()
+
+        def __init__(self, signal, slot):
+            super(_SignalConnector, self).__init__()
+
+            self.signal = signal
+            self.slot = slot
+            self._instances.add(self)
+            self.signal.connect(self.wrappedSlot)
+
+        def wrappedSlot(self, *args, **kwargs):
+            self._instances.discard(self)
+            self.signal.disconnect(self.wrappedSlot)
+            self.slot(*args, **kwargs)
