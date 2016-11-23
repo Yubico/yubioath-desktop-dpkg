@@ -1,3 +1,11 @@
+yubioath-desktop (3.1.0-1) unstable; urgency=medium
+  
+  [ Dag Heyman ]
+  * New upstream version
+  * Drop icon patch.
+
+ -- Dag Heyman <dag@yubico.com>  Wed, 23 Nov 2016 10:46:33 +0100
+
 yubioath-desktop (3.0.1-2) unstable; urgency=medium
 
   [ Dag Heyman ]
