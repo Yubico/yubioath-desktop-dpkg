@@ -1,3 +1,153 @@
+2016-11-22  Dag Heyman <dag@yubico.com>
+
+	* NEWS: Update NEWS
+
+2016-11-22  Dag Heyman <dag@yubico.com>
+
+	* NEWS, yubioath/__init__.py: Update NEWS and version number
+
+2016-11-22  Dag Heyman <dag@yubico.com>
+
+	* vendor/yubicommon: Update yubicommon
+
+2016-09-29  Dag Heyman <dag@yubico.com>
+
+	* README: Add new row in README
+
+2016-09-29  Dag Heyman <dag@yubico.com>
+
+	* README: Add travis badge
+
+2016-09-29  Dag Heyman <dag@yubico.com>
+
+	* .travis.yml: No tests in travis for now
+
+2016-09-29  Dag Heyman <dag@yubico.com>
+
+	* vendor/yubicommon: Update yubicommon
+
+2016-09-29  Dag Heyman <dag@yubico.com>
+
+	* .travis.yml: Travis: only flake8 for now
+
+2016-09-29  Dag Heyman <dag@yubico.com>
+
+	* .travis.yml: Add a travis file
+
+2016-09-29  Dag Heyman <dag@yubico.com>
+
+	* setup.py, yubioath/cli/__main__.py, yubioath/core/standard.py,
+	yubioath/core/utils.py, yubioath/gui/__init__.py,
+	yubioath/gui/__main__.py, yubioath/gui/controller.py,
+	yubioath/gui/messages.py, yubioath/gui/qrdecode.py,
+	yubioath/gui/view/add_cred.py,
+	yubioath/gui/view/add_cred_legacy.py, yubioath/gui/view/codes.py: 
+	Cleanup to pass flake8
+
+2016-09-28  Dag Heyman <dag@yubico.com>
+
+	* vendor/yubicommon: Update yubicommon
+
+2016-09-28  Dag Heyman <dag@yubico.com>
+
+	* : Merge pull request #102
+
+2016-09-27  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/gui/ccid_poll.py, yubioath/gui/controller.py: Minor
+	cleanups.
+
+2016-09-23  Dain Nilsson <dain@yubico.com>
+
+	* : Merge pull request #99 from tycho/add-search-box.
+
+2016-09-23  Dain Nilsson <dain@yubico.com>
+
+	* : Merge pull request #103 from tycho/fix-ui-hitches.
+
+2016-09-13  Steven Noonan <steven@uplinklabs.net>
+
+	* yubioath/gui/view/codes.py: yubioath-gui: set completion mode to
+	"inline" The popup was eating hotkey events and I couldn't figure out a
+	sensible way around that.  Signed-off-by: Steven Noonan <steven@uplinklabs.net>
+
+2016-09-12  Steven Noonan <steven@uplinklabs.net>
+
+	* yubioath/gui/controller.py: yubioath-gui: do expensive
+	refresh_codes() logic in background worker This prevents the user interface from hitching when refreshing the
+	codes list.  Signed-off-by: Steven Noonan <steven@uplinklabs.net>
+
+2016-09-10  Steven Noonan <steven@uplinklabs.net>
+
+	* yubioath/gui/view/codes.py: yubioath-gui: add auto-completion to
+	search box Signed-off-by: Steven Noonan <steven@uplinklabs.net>
+
+2016-09-10  Steven Noonan <steven@uplinklabs.net>
+
+	* yubioath/gui/messages.py, yubioath/gui/view/codes.py: 
+	yubioath-gui: add search box for codes list Signed-off-by: Steven Noonan <steven@uplinklabs.net>
+
+2016-09-12  Steven Noonan <steven@uplinklabs.net>
+
+	* yubioath/gui/__main__.py, yubioath/gui/messages.py: yubioath-gui:
+	add shortcut Command+W to close the window The typical OS X shortcuts mostly work: Command+Q, Command+H... But
+	Command+W, the shortcut for closing the current window, does not
+	currently do anything.  This hooks the Command+W key sequence up to
+	the window.close function.  Signed-off-by: Steven Noonan <steven@uplinklabs.net>
+
+2016-09-09  Steven Noonan <steven@uplinklabs.net>
+
+	* yubioath/cli/__main__.py: yubioath cli: allow funny Steam otpauth
+	URIs otpauth URIs exported by WinAuth add 'digits=5' for SteamGuard
+	tokens, which is invalid in all cases except for Steam. Since the
+	YubiKey will reject a value of '5', just patch it to '6' like we do
+	in the GUI.  Signed-off-by: Steven Noonan <steven@uplinklabs.net>
+
+2016-09-09  Steven Noonan <steven@uplinklabs.net>
+
+	* yubioath/cli/__main__.py: yubioath cli: add support for
+	HMAC-SHA256 This also adds value correctness checking for the OATH type and
+	number of digits.  Signed-off-by: Steven Noonan <steven@uplinklabs.net>
+
+2016-09-09  Steven Noonan <steven@uplinklabs.net>
+
+	* yubioath/cli/__main__.py: yubioath cli: use better description for
+	oath-type Since the "algorithm" is the HMAC variant.  Signed-off-by: Steven Noonan <steven@uplinklabs.net>
+
+2016-09-09  Steven Noonan <steven@uplinklabs.net>
+
+	* yubioath/cli/__main__.py: yubioath cli: fix handling of otpauth
+	URIs If we use the 'or's here we incorrectly pull a bunch of values from
+	the command-line arguments instead of from the parsed URL. Even if
+	the user doesn't specify these values (e.g. digits) on the command
+	line, they already have Click-defined default values. So regardless
+	of the 'digits' value in the otpauth:// URI, '6' would always be
+	used.  Signed-off-by: Steven Noonan <steven@uplinklabs.net>
+
+2016-09-09  Steven Noonan <steven@uplinklabs.net>
+
+	* yubioath/gui/messages.py, yubioath/gui/view/add_cred.py: 
+	yubioath-gui: add more error checking for parsed QR codes We now verify that the type, number of digits, and algorithm are
+	valid choices.  Signed-off-by: Steven Noonan <steven@uplinklabs.net>
+
+2016-09-09  Steven Noonan <steven@uplinklabs.net>
+
+	* yubioath/gui/__main__.py, yubioath/gui/messages.py,
+	yubioath/gui/view/add_cred.py: yubioath-gui: implement HMAC-SHA256
+	support in UI Signed-off-by: Steven Noonan <steven@uplinklabs.net>
+
+2016-09-08  Dain Nilsson <dainzor@gmail.com>
+
+	* : Merge pull request #94 from tycho/fix-for-qr-decode qrdecode: fix error where float was used as a string index
+
+2016-06-15  Dag Heyman <dag@yubico.com>
+
+	* resources/yubioath.desktop: Update desktop icon command
+
+2016-06-13  Dain Nilsson <dain@yubico.com>
+
+	* yubioath/__init__.py: Bump version.
+
 2016-06-13  Dain Nilsson <dain@yubico.com>
 
 	* NEWS, yubioath/__init__.py: Update NEWS and version for release.
@@ -471,9 +621,8 @@
 2015-08-06  Dain Nilsson <dain@yubico.com>
 
 	* scripts/yubioath, scripts/yubioath-cli, setup.py,
-	yubioath/cli/__main__.py, yubioath/cli/main.py,
-	yubioath/gui/__main__.py, yubioath/gui/main.py: Use entry_points
-	instead of scripts.
+	yubioath/cli/{main.py => __main__.py}, yubioath/gui/{main.py =>
+	__main__.py}: Use entry_points instead of scripts.
 
 2015-08-05  Dain Nilsson <dain@yubico.com>
 
@@ -529,14 +678,14 @@
 
 2015-06-30  Dain Nilsson <dain@yubico.com>
 
-	* .gitignore, MANIFEST.in, man/yubioath-cli.1.adoc,
-	man/yubioath.1.adoc, scripts/yubioath-cli.1.adoc,
-	scripts/yubioath.1.adoc, vendor/yubicommon: Moved man files.
+	* .gitignore, MANIFEST.in, {scripts => man}/yubioath-cli.1.adoc,
+	{scripts => man}/yubioath.1.adoc, vendor/yubicommon: Moved man
+	files.
 
 2015-06-30  Dain Nilsson <dain@yubico.com>
 
-	* scripts/yubioath-cli.1.adoc, scripts/yubioath-cli.adoc,
-	scripts/yubioath.1.adoc, scripts/yubioath.adoc: Rename mans.
+	* scripts/{yubioath-cli.adoc => yubioath-cli.1.adoc},
+	scripts/{yubioath.adoc => yubioath.1.adoc}: Rename mans.
 
 2015-06-30  Dain Nilsson <dain@yubico.com>
 
@@ -713,9 +862,9 @@
 
 2015-06-15  Dain Nilsson <dain@yubico.com>
 
-	* yubioath/core/ccid.py, yubioath/core/ccid_poll.py,
-	yubioath/gui/ccid.py, yubioath/gui/ccid_poll.py,
-	yubioath/gui/controller.py: Move observing CCID code to gui.
+	* yubioath/core/ccid.py, yubioath/gui/ccid.py, yubioath/{core =>
+	gui}/ccid_poll.py, yubioath/gui/controller.py: Move observing CCID
+	code to gui.
 
 2015-06-15  Dain Nilsson <dain@yubico.com>
 
@@ -1068,11 +1217,10 @@
 
 2015-04-29  Dain Nilsson <dain@yubico.com>
 
-	* yubioath/core/ccid.py, yubioath/core/device.py,
-	yubioath/core/exc.py, yubioath/core/legacy.py,
-	yubioath/core/legacy_ccid.py, yubioath/core/legacy_otp.py,
-	yubioath/core/standard.py, yubioath/core/utils.py: Added support for
-	legacy OATH over CCID.
+	* yubioath/core/ccid.py, yubioath/core/exc.py,
+	yubioath/core/legacy_ccid.py, yubioath/core/{legacy.py =>
+	legacy_otp.py}, yubioath/core/{device.py => standard.py},
+	yubioath/core/utils.py: Added support for legacy OATH over CCID.
 
 2015-04-28  Dain Nilsson <dain@yubico.com>
 
@@ -1326,8 +1474,7 @@
 
 2014-03-11  tom <tom@yubico.com>
 
-	* yubicoauthenticator/resources/osx/patch,
-	yubicoauthenticator/resources/osx/patch.sh,
+	* yubicoauthenticator/resources/osx/{patch.sh => patch},
 	yubicoauthenticator/yubicoauthenticator.spec: patch
 
 2014-03-11  tom <tom@yubico.com>

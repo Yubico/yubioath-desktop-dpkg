@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
+<refentry lang="en">
+<refentryinfo>
+    <title>yubioath(1)</title>
+</refentryinfo>
+<refmeta>
+<refentrytitle>yubioath</refentrytitle>
+<manvolnum>1</manvolnum>
+<refmiscinfo class="source">yubioath</refmiscinfo>
+<refmiscinfo class="manual">Yubico Authenticator Manual</refmiscinfo>
+</refmeta>
+<refnamediv>
+    <refname>yubioath</refname>
+    <refpurpose>Yubico Authenticator command line interface</refpurpose>
+</refnamediv>
+<refsynopsisdiv id="_synopsis">
+<simpara><emphasis role="strong">yubioath</emphasis> [OPTIONS] COMMAND [ARGS]&#8230;</simpara>
+</refsynopsisdiv>
+<refsect1 id="_description">
+<title>Description</title>
+<simpara>The Yubico Authenticator is a graphical desktop tool for generating Open
+AuTHentication (OATH) event-based HOTP and time-based TOTP one-time password
+codes, with the help of a YubiKey that protects the shared secrets.</simpara>
+</refsect1>
+<refsect1 id="_options">
+<title>Options</title>
+<simpara>yubioath has the following options:</simpara>
+<variablelist>
+<varlistentry>
+<term>
+<emphasis role="strong">-v, --version</emphasis>
+</term>
+<listitem>
+<simpara>
+    Prints the version of the application and exits.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-h, --help</emphasis>
+</term>
+<listitem>
+<simpara>
+    Shows a list of available sub commands and arguments.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-R, --remember</emphasis>
+</term>
+<listitem>
+<simpara>
+    Save any password given for a YubiKey to avoid having to enter it in again.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-r, --reader READER</emphasis>
+</term>
+<listitem>
+<simpara>
+    Name to match smartcard reader against (case insensitive).
+</simpara>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1 id="_commands">
+<title>Commands</title>
+<simpara>yubioath supports multiple commands, each with its own options, in addition
+to the global options:</simpara>
+<refsect2 id="_emphasis_role_strong_show_emphasis_options_query">
+<title><emphasis role="strong">show</emphasis> [OPTIONS] [QUERY]</title>
+<literallayout class="monospaced">Display one or more one time codes calculated by the YubiKey.</literallayout>
+<variablelist>
+<varlistentry>
+<term>
+<emphasis role="strong">-s1, --slot1 DIGITS</emphasis>
+</term>
+<listitem>
+<simpara>
+    Calculate and show a one time code from slot 1, displaying DIGITS number of
+    digits.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-s2, --slot2 DIGITS</emphasis>
+</term>
+<listitem>
+<simpara>
+    Calculate and show a one time code from slot 2, displaying DIGITS number of
+    digits.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-t, --timestamp TIMESTAMP</emphasis>
+</term>
+<listitem>
+<simpara>
+    Use the user provided TIMESTAMP instead of the system clock.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-h, --help</emphasis>
+</term>
+<listitem>
+<simpara>
+    Shows additional help for the sub command.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">QUERY</emphasis>
+</term>
+<listitem>
+<simpara>
+    A filter string to match credential names against. If given, only
+    credentials containing the QUERY substring will be displayed. For HOTP
+    credentials, codes will only be calculated when given a QUERY which
+    uniquely specifices the credential as to avoid unwanted counter
+    incrementation.
+</simpara>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2 id="_emphasis_role_strong_put_emphasis_options_key">
+<title><emphasis role="strong">put</emphasis> [OPTIONS] KEY</title>
+<literallayout class="monospaced">Load and store a credential into the YubiKey.</literallayout>
+<variablelist>
+<varlistentry>
+<term>
+<emphasis role="strong">-S, --destination DEST</emphasis>
+</term>
+<listitem>
+<simpara>
+    Where DEST is one of:
+</simpara>
+<itemizedlist>
+<listitem>
+<simpara>
+<emphasis role="strong">0</emphasis> the main applet (default).
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<emphasis role="strong">1</emphasis> the YubiKey standard slot 1.
+</simpara>
+</listitem>
+<listitem>
+<simpara>
+<emphasis role="strong">2</emphasis> the YubiKey standard slot 2.
+</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-N, --name NAME</emphasis>
+</term>
+<listitem>
+<simpara>
+    The name to give the credential. When giving a name with an issuer, the
+    issuer and name should be separated by a colon: <emphasis>issuer:name</emphasis>.
+    Not applicable to slot-based credentials.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-A, --oath-type ALGORITHM</emphasis>
+</term>
+<listitem>
+<simpara>
+    OATH algorithm to use. Should be one of <emphasis role="strong">totp</emphasis> (default) and <emphasis role="strong">hotp</emphasis>.
+    Not applicable to slot-based credentials.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-D, --digits DIGITS</emphasis>
+</term>
+<listitem>
+<simpara>
+    The number of digits to output when generating codes. Should be <emphasis role="strong">6</emphasis>
+    (default) or <emphasis role="strong">8</emphasis>.
+    Not applicable to slot-based credentials.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-I IMF, --imf IMF</emphasis>
+</term>
+<listitem>
+<simpara>
+    The initial value to store for the counter. Only applicable for HOTP
+    credential.
+    Not applicable to slot-based credentials.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-T, --touch</emphasis>
+</term>
+<listitem>
+<simpara>
+    When set, the slot will require the user to press the button on the YubiKey
+    before calculating a code.
+    <emphasis role="strong">Only</emphasis> applicable to slot-based credentials.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-h, --help</emphasis>
+</term>
+<listitem>
+<simpara>
+    Shows additional help for the sub command.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">KEY</emphasis>
+</term>
+<listitem>
+<simpara>
+    Either a base32 encoded key to use as the secret for the credential, or an
+    otpauth:// URI containing the parameters of the credential. When a URI is
+    given the other options are not needed, but can be used to override
+    parameters in the URI, if needed.
+</simpara>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2 id="_emphasis_role_strong_delete_emphasis_name">
+<title><emphasis role="strong">delete</emphasis> NAME</title>
+<literallayout class="monospaced">Deletes a credential from the main OATH credential storage.</literallayout>
+<variablelist>
+<varlistentry>
+<term>
+<emphasis role="strong">NAME</emphasis>
+</term>
+<listitem>
+<simpara>
+    A filter string that uniquely identifies the credential to delete.
+</simpara>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2 id="_emphasis_role_strong_password_emphasis_subcommand_options">
+<title><emphasis role="strong">password</emphasis> SUBCOMMAND [OPTIONS]</title>
+<literallayout class="monospaced">Manage the access password of the OATH applet.</literallayout>
+<variablelist>
+<varlistentry>
+<term>
+<emphasis role="strong">set</emphasis>
+</term>
+<listitem>
+<simpara>
+    Sets a new password for the YubiKey.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">unset</emphasis>
+</term>
+<listitem>
+<simpara>
+    Unsets the current password, so that the YubiKey does not require a
+    password to be used.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">forget</emphasis>
+</term>
+<listitem>
+<simpara>
+    Remove all access keys stored on disk.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-p, --password PASSWORD</emphasis>
+</term>
+<listitem>
+<simpara>
+    Provide the new password for use with the <emphasis role="strong">set</emphasis> sub command as an argument.
+    If not given, the command will prompt the user to enter a new password
+    while masking input.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-h, --help</emphasis>
+</term>
+<listitem>
+<simpara>
+    Shows additional help for the sub command.
+</simpara>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+<refsect2 id="_emphasis_role_strong_reset_emphasis_options">
+<title><emphasis role="strong">reset</emphasis> [OPTIONS]</title>
+<literallayout class="monospaced">Factory-reset the OATH applet, unsetting any access password and erasing
+all stored credentials.</literallayout>
+<variablelist>
+<varlistentry>
+<term>
+<emphasis role="strong">-f, --force</emphasis>
+</term>
+<listitem>
+<simpara>
+    Do not prompt for confirmation before resetting.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-h, --help</emphasis>
+</term>
+<listitem>
+<simpara>
+    Shows additional help for the sub command.
+</simpara>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+</refsect1>
+<refsect1 id="_bugs">
+<title>Bugs</title>
+<simpara>Report bugs in the issue tracker (<ulink url="https://github.com/Yubico/yubioath-desktop/issues">https://github.com/Yubico/yubioath-desktop/issues</ulink>)</simpara>
+</refsect1>
+<refsect1 id="_see_also">
+<title>See also</title>
+<simpara><emphasis role="strong">yubioath-gui</emphasis>(1)</simpara>
+</refsect1>
+</refentry>
